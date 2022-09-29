@@ -1,2 +1,6 @@
-# trabalho-ed2-parte1
-Repositório com o Trabalho de Estrutura de Dados II
+# Estrutura de Dados II - Trabalho Parte 1
+
+## Alunos
+- Arthur Bonaldi
+- Lucas Varino
+- Pedro Grimaldi
