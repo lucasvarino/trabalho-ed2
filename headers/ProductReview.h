@@ -17,6 +17,7 @@ class ProductReview
         ProductReview(string user_id, string product_id, float rating, string timestamp);
         ~ProductReview();
         void print();
+        static void lerArquivo(string dirCsv, string dirBin);
 };
 
 

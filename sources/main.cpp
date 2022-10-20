@@ -1,12 +1,29 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "ProductReview.h"
+
+#define FILE_NAME "ratings_Electronics"
 
 using namespace std;
 
-int main(int, char**) {
-    std::cout << "Hello, world!\n";
+void createBinary(string &path)
+{
+    string dirBin = path + "build/" + FILE_NAME + ".bin";
+    string dirCsv = path + FILE_NAME + ".csv";
+    
+    ifstream arqBin(dirBin, ios::in);
 
-    ProductReview* prod1 = new ProductReview("1", "1", 5.0, "10/10/2022");
-    prod1->print();
+    if (arqBin.is_open()) {
+        cout << "O arquivo binário já foi criado." << endl; 
+    }
+
+    ProductReview::lerArquivo(dirCsv, dirBin);
+}
+
+int main(int, char**) {
+    string path = "./";
+    createBinary(path);
+    // ProductReview* prod1 = new ProductReview("1", "1", 5.0, "10/10/2022");
+    // prod1->print();
 }
