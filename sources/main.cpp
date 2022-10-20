@@ -9,8 +9,8 @@ using namespace std;
 
 void createBinary(string &path)
 {
-    string dirBin = path + "build/" + FILE_NAME + ".bin";
-    string dirCsv = path + FILE_NAME + ".csv";
+    string dirBin = path + FILE_NAME + ".bin";
+    string dirCsv = path + FILE_NAME;
     
     ifstream arqBin(dirBin, ios::in);
 
@@ -18,7 +18,7 @@ void createBinary(string &path)
         cout << "O arquivo binário já foi criado." << endl; 
     }
 
-    ProductReview::lerArquivo(dirCsv, dirBin);
+    ProductReview::createBinary(dirCsv);
 }
 
 int main(int, char**) {

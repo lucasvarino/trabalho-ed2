@@ -28,28 +28,35 @@ void ProductReview::print()
     cout << "Timestamp: " << this->timestamp << endl;
 }
 
-void ProductReview::lerArquivo(string dirCsv, string dirBin)
+void ProductReview::createBinary(string dirCsv) //TODO: Mudar os parâmetros da função pra receber apenas diretório do arquivo
 {
-    ifstream arqCsv(dirCsv);
-    ofstream arqBin(dirBin, ios::out | ios::app | ios::binary);
+    ifstream arqCsv(dirCsv + ".csv", ios::in);
+    ofstream arqBin(dirBin + ".bin", ios::out | ios::app | ios::binary);
 
     string user_idAux;
     string product_idAux;
     string ratingAux;
     string timestampAux;
 
-    if (arqCsv.is_open())
+    while (!arqCsv.eof())
     {
+        getline(arqCsv, user_idAux, ',');
+        getline(arqCsv, product_idAux, ',');
+        getline(arqCsv, ratingAux, ',');
+        getline(arqCsv, timestampAux, '\n');
 
-        getline(arqCsv, user_idAux);
-        // getline(arqCsv, product_idAux, ',');
-        // getline(arqCsv, ratingAux, ',');
-        // getline(arqCsv, timestampAux, ',');
+        if(arqBin.is_open()) 
+        {
+            arqBin.write(reinterpret_cast<const char*>(user_idAux.c_str()), user_idAux.length());
+            arqBin.write(reinterpret_cast<const char*>(product_idAux.c_str()), product_idAux.length());
+            arqBin.write(reinterpret_cast<const char*>(&ratingAux), sizeof(float));
+            arqBin.write(reinterpret_cast<const char*>(timestampAux.c_str()), timestampAux.length());
+            
+        } else {
+            cout << "ERRO: O arquivo nao pode ser aberto!" << endl;
+        }
 
-
-        cout << "teste" << endl;
-        
-        // ProductReview *pr = new ProductReview(user_idAux, product_idAux, stof(ratingAux), timestampAux);
-        // pr->print();
     }
+
+    arqCsv.close();
 }
