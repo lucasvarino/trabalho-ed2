@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
@@ -44,23 +45,30 @@ ProductReview* ProductReview::import(int n)
 
     arq.seekg(0);
 
-    char userIdAux[14];
-    char productIdAux[10];
+    // Numero de Registros - 7824483
+
+    char userIdAux[15];
+    char productIdAux[11];
     float ratingAux;
-    char timestampAux[10];
+    char timestampAux[11];
 
-    arq.read(userIdAux, 13);
-    arq.read(productIdAux, 10);
-    arq.read(reinterpret_cast<char*>(&ratingAux), sizeof(float));
-    arq.read(timestampAux, 10);
+    for (int i = 0; i < n; i++)
+    {
+        arq.read(userIdAux, 14);
+        arq.read(productIdAux, 10);
+        arq.read(reinterpret_cast<char*>(&ratingAux), sizeof(float));
+        arq.read(timestampAux, 10);
 
-    productIdAux[10] = '\0';
+        userIdAux[14] = '\0';
+        productIdAux[10] = '\0';
+        timestampAux[10] = '\0';    
+        ProductReview pr(userIdAux, productIdAux, ratingAux, timestampAux);
+
+        pr.print();   
+    }
     
-    cout << ratingAux << endl;
 
-    ProductReview pr;
 
-    // pr.print();
 
     return nullptr;
 }
@@ -84,31 +92,22 @@ void ProductReview::createBinary(string dirCsv)
 
         float ratingFloat = stof(ratingAux);
 
-        // if(sizeof(user_idAux) == 13) {
-        //     cout << "User Id menor" << endl;
-        //     user_idAux + '\0';
-        // }
+        if(user_idAux.length() < 14) {
+            user_idAux = user_idAux + '\0';
+        }
 
-        ProductReview pr(user_idAux, product_idAux, ratingFloat, timestampAux);
-        pr.print();
+        // ProductReview pr(user_idAux, product_idAux, ratingFloat, timestampAux);
 
         if(arqBin.is_open()) 
         {
             arqBin.write(reinterpret_cast<const char*>(user_idAux.c_str()), user_idAux.length());
             arqBin.write(reinterpret_cast<const char*>(product_idAux.c_str()), product_idAux.length());
-            arqBin.write(reinterpret_cast<const char*>(&ratingAux), sizeof(float));
+            arqBin.write(reinterpret_cast<const char*>(&ratingFloat), sizeof(float));
             arqBin.write(reinterpret_cast<const char*>(timestampAux.c_str()), timestampAux.length());
             
         } else {
             cout << "ERRO: O arquivo nao pode ser aberto!" << endl;
         }
-
-        cout << "Tamanho userId -> " << user_idAux.length() << endl;
-        cout << "Tamanho productId -> " << product_idAux.length() << endl;
-        cout << "Tamanho timestamp -> " << timestampAux.length() << endl;
-
-        return;
-
     }
 
     arqCsv.close();

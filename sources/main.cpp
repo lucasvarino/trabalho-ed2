@@ -1,14 +1,17 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <chrono>
 #include "ProductReview.h"
 
 #define FILE_NAME "ratings_Electronics"
 
 using namespace std;
+using namespace std::chrono;
 
 void createBinary(string &path)
 {
+    high_resolution_clock::time_point inicio = high_resolution_clock::now();
     string dirBin = path + FILE_NAME + ".bin";
     string dirCsv = path + FILE_NAME;
     
@@ -18,8 +21,11 @@ void createBinary(string &path)
         cout << "O arquivo binário já foi criado." << endl; 
         return;
     }
-    
+    cout << "Criando arquivo binário..." << endl;
     ProductReview::createBinary(dirCsv);
+    high_resolution_clock::time_point fim = high_resolution_clock::now();
+
+    cout << "Arquivo binário criado." << endl << "Tempo gasto para a criação: " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
     
 }
 
