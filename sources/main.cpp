@@ -34,7 +34,8 @@ int main(int, char**) {
     createBinary(path);
 
     ProductReview* pr = new ProductReview("", "", 0.0, "");
-    ProductReview* produtos = pr->import(10);
+    ProductReview* produtos = pr->getReview(5737229); //5737229 3953
+    produtos->print();
     // ProductReview* prod1 = new ProductReview("1", "1", 5.0, "10/10/2022");
     // prod1->print();
 }

@@ -4,6 +4,9 @@
 #include <string>
 #include <fstream>
 #include <cstring>
+#include <random>
+
+#define TOTAL_REGISTROS 7824483
 
 using namespace std;
 
@@ -33,6 +36,45 @@ void ProductReview::print()
     cout << "Timestamp: " << this->timestamp << endl;
 }
 
+ProductReview* ProductReview::getReview(int indice)
+{
+    fstream arq("ratings_Electronics.bin", ios::in | ios::binary);
+
+    if(!arq.is_open())
+    {
+        cout << "O arquivo binário ainda não foi criado" << endl;
+        return nullptr;
+    }
+
+    arq.seekg(indice * (21 + 10 + sizeof(float) + 10));
+
+    char *userIdAux = new char[21];
+    char *productIdAux = new char[10];
+    float ratingAux;
+    char *timestampAux = new char[10];
+
+    arq.read(reinterpret_cast<char*>(userIdAux), 21);
+    arq.read(reinterpret_cast<char*>(productIdAux), 10);
+    arq.read(reinterpret_cast<char*>(&ratingAux), sizeof(float));
+    arq.read(reinterpret_cast<char*>(timestampAux), 10);
+
+    productIdAux[10] = '\0';
+    timestampAux[10] = '\0';
+
+    string userId = userIdAux;
+    string productId = productIdAux;
+    string timestampString = timestampAux;
+    
+
+    ProductReview *pr = new ProductReview(userId, productId, ratingAux, timestampString);
+    
+    delete [] userIdAux;
+    delete [] productIdAux;
+    delete [] timestampAux;
+
+    return pr;
+}
+
 ProductReview* ProductReview::import(int n)
 {
     fstream arq("ratings_Electronics.bin", ios::in | ios::binary);
@@ -47,27 +89,19 @@ ProductReview* ProductReview::import(int n)
 
     // Numero de Registros - 7824483
 
-    char userIdAux[15];
-    char productIdAux[11];
-    float ratingAux;
-    char timestampAux[11];
+    random_device dev;
+    mt19937 rng(dev());
+    uniform_int_distribution<mt19937::result_type> dist(0, TOTAL_REGISTROS); // distribution in range [1,TOTALREGISTROS]
 
     for (int i = 0; i < n; i++)
     {
-        arq.read(userIdAux, 14);
-        arq.read(productIdAux, 10);
-        arq.read(reinterpret_cast<char*>(&ratingAux), sizeof(float));
-        arq.read(timestampAux, 10);
+        int indiceAleatorio = dist(rng);
+        cout << "INDICE -> " << indiceAleatorio << endl;    
+        ProductReview *pr = this->getReview(indiceAleatorio);
 
-        userIdAux[14] = '\0';
-        productIdAux[10] = '\0';
-        timestampAux[10] = '\0';    
-        ProductReview pr(userIdAux, productIdAux, ratingAux, timestampAux);
-
-        pr.print();   
+        pr->print();
     }
     
-
 
 
     return nullptr;
@@ -92,18 +126,16 @@ void ProductReview::createBinary(string dirCsv)
 
         float ratingFloat = stof(ratingAux);
 
-        if(user_idAux.length() < 14) {
-            user_idAux = user_idAux + '\0';
-        }
+        
 
-        // ProductReview pr(user_idAux, product_idAux, ratingFloat, timestampAux);
+        ProductReview pr(user_idAux, product_idAux, ratingFloat, timestampAux);
 
         if(arqBin.is_open()) 
         {
-            arqBin.write(reinterpret_cast<const char*>(user_idAux.c_str()), user_idAux.length());
-            arqBin.write(reinterpret_cast<const char*>(product_idAux.c_str()), product_idAux.length());
+            arqBin.write(reinterpret_cast<const char*>(user_idAux.c_str()), 21);
+            arqBin.write(reinterpret_cast<const char*>(product_idAux.c_str()), 10);
             arqBin.write(reinterpret_cast<const char*>(&ratingFloat), sizeof(float));
-            arqBin.write(reinterpret_cast<const char*>(timestampAux.c_str()), timestampAux.length());
+            arqBin.write(reinterpret_cast<const char*>(timestampAux.c_str()), 10);
             
         } else {
             cout << "ERRO: O arquivo nao pode ser aberto!" << endl;

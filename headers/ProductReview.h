@@ -30,6 +30,7 @@ class ProductReview
 
         void print();
         ProductReview* import(int n);
+        ProductReview* getReview(int indice);
         static void createBinary(string dirCsv);
 };
 
