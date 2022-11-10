@@ -58,6 +58,7 @@ ProductReview* ProductReview::getReview(int indice)
     arq.read(reinterpret_cast<char*>(&ratingAux), sizeof(float));
     arq.read(reinterpret_cast<char*>(timestampAux), 10);
 
+    userIdAux[21] = '\0';
     productIdAux[10] = '\0';
     timestampAux[10] = '\0';
 
