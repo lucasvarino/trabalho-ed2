@@ -3,6 +3,7 @@
 #include <fstream>
 #include <chrono>
 #include "../headers/ProductReview.h"
+#include "../headers/Sort.h"
 
 #define FILE_NAME "ratings_Electronics"
 
@@ -35,4 +36,16 @@ int main(int, char**) {
 
     ProductReview* pr = new ProductReview("", "", 0.0, "");
     ProductReview* produtos = pr->import(10); //5737229 3953
+    for (int i = 0; i < 10; i++) {
+        produtos[i].print();
+    }
+    Sort s;
+    s.mergeSort(produtos, 0, 9);
+
+    cout<<"Ordenado"<<endl;
+    
+    for (int i = 0; i < 10; i++) {
+        produtos[i].print();
+    }
+    
 }
