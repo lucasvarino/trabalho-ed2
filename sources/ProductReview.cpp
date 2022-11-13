@@ -82,7 +82,7 @@ ProductReview* ProductReview::import(int n)
 
     if(!arq.is_open())
     {
-        cout << "O arquivo binário ainda não foi criado" << endl;
+        cout << "O arquivo binário ainda não foi criado!" << endl;
         return nullptr;
     }
 
@@ -94,18 +94,17 @@ ProductReview* ProductReview::import(int n)
     mt19937 rng(dev());
     uniform_int_distribution<mt19937::result_type> dist(0, TOTAL_REGISTROS); // distribution in range [1,TOTALREGISTROS]
 
+    ProductReview *vet = new ProductReview[n];
+
     for (int i = 0; i < n; i++)
     {
-        int indiceAleatorio = dist(rng);
-        cout << "INDICE -> " << indiceAleatorio << endl;    
+        int indiceAleatorio = dist(rng); 
         ProductReview *pr = this->getReview(indiceAleatorio);
 
-        pr->print();
+        vet[i] = *pr;
     }
     
-
-
-    return nullptr;
+    return vet;
 }
 
 void ProductReview::createBinary(string dirCsv)
@@ -126,10 +125,6 @@ void ProductReview::createBinary(string dirCsv)
         getline(arqCsv, timestampAux, '\n');
 
         float ratingFloat = stof(ratingAux);
-
-        
-
-        ProductReview pr(user_idAux, product_idAux, ratingFloat, timestampAux);
 
         if(arqBin.is_open()) 
         {
