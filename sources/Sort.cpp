@@ -14,6 +14,13 @@ void Sort::mergeSort(ProductReview *vetor, int inicio, int fim) {
         merge(vetor, inicio, meio, fim);
     }
 }
+Sort::Sort() {
+    this->comparacoes = 0;
+    this->trocas = 0;
+    this->tempo = 0;
+}
+Sort::~Sort() {
+}
 
 void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) {
     int i, j, k, tam;
@@ -52,4 +59,35 @@ void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) {
     }
 
     delete[] aux;
+}
+void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
+    high_resolution_clock::time_point start = high_resolution_clock::now();
+    int i, j, meio;
+    ProductReview pivo, aux;
+
+    i = inicio;
+    j = fim;
+    meio = (int) ((i + j) / 2);
+    pivo = vetor[meio];
+
+    do {
+        while (vetor[i].getUserId() < pivo.getUserId()) i = i + 1;
+        this->comparacoes++;
+        while (vetor[j].getUserId() > pivo.getUserId()) j = j - 1;
+        this->comparacoes++;
+        if (i <= j) {
+            aux = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = aux;
+            this->trocas++;
+            cout<<"troca"<<endl;
+            i = i + 1;
+            j = j - 1;
+        }
+    } while (j > i);
+
+    if (inicio < j) quickSort(vetor, inicio, j);
+    if (i < fim) quickSort(vetor, i, fim);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+    this->tempo = duration_cast<duration<double>>(end - start).count();
 }

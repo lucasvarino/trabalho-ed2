@@ -39,13 +39,15 @@ int main(int, char**) {
     for (int i = 0; i < 10; i++) {
         produtos[i].print();
     }
-    Sort s;
-    s.mergeSort(produtos, 0, 9);
-
-    cout<<"Ordenado"<<endl;
-    
+    Sort s =  Sort();
+    s.quickSort(produtos, 0, 9);
+    cout << "Ordenado" << endl;
     for (int i = 0; i < 10; i++) {
         produtos[i].print();
     }
+    cout << s.getTrocas() <<endl;
+    cout << s.getComparacoes() <<endl;
+    cout << s.getTempo() << "Segundos" <<endl;
+    
     
 }
