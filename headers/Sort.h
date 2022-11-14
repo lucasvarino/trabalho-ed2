@@ -21,6 +21,7 @@ class Sort
 
         // Funções Auxiliares
         void merge(ProductReview *vetor, int inicio, int meio, int fim);
+        void insertionSort(ProductReview *vetor, int inicio, int fim);
         
     public:
         //constructor

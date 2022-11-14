@@ -29,7 +29,7 @@ void createBinary(string &path)
     cout << "Arquivo binário criado." << endl << "Tempo gasto para a criação: " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
     
 }
-void sort(ProductReview *vet, int n, int methodId){
+Sort* sort(ProductReview *vet, int n, int methodId){
     Sort *sort = new Sort();
     switch (methodId)
     {
@@ -39,44 +39,79 @@ void sort(ProductReview *vet, int n, int methodId){
     case 1:
         sort->mergeSort(vet, 0, n-1);
         break;
+    case 2:
+        sort->timSort(vet, n);
+        break;
     default:
         break;
+    }   
+    return sort;
+}
+
+void gerarMetricas(int methodId) {
+    int tamConjuntos[5] = {1000, 50000, 100000, 500000, 1000000};
+    int qtdConjuntos = 3;
+    ProductReview pr;
+
+    int mediaComparacoes = 0;
+    int mediaTrocas = 0;
+    double mediaTempo = 0;
+
+    ofstream arqTxt("output.txt", ios::out | ios::app);
+    arqTxt << "---------------------" << endl;
+    arqTxt << "Método " << methodId << endl;
+    arqTxt << "---------------------" << endl;
+    arqTxt << endl << endl;
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < qtdConjuntos; j++)
+        {
+            high_resolution_clock::time_point inicio = high_resolution_clock::now();
+
+            ProductReview *conjunto = pr.import(tamConjuntos[i]);
+            Sort *metricas = sort(conjunto, tamConjuntos[i], methodId);
+
+            high_resolution_clock::time_point fim = high_resolution_clock::now();
+            metricas->setTempo(duration_cast<duration<double>>(fim - inicio).count());
+
+            mediaComparacoes += metricas->getComparacoes();
+            mediaTrocas += metricas->getTrocas();
+            mediaTempo += metricas->getTempo();
+
+            arqTxt << "Conjunto de Tamanho: " << tamConjuntos[i] << endl;
+            arqTxt << "Comparacoes: " << metricas->getComparacoes() << endl;
+            arqTxt << "Trocas: " << metricas->getTrocas() << endl;
+            arqTxt << "Tempo: " << metricas->getTempo() << endl;
+            arqTxt << endl;
+
+            delete [] conjunto;
+            delete metricas;
+        }
+
+        arqTxt << endl;
+        arqTxt << "Media de Comparacoes: " << mediaComparacoes/qtdConjuntos << endl;
+        arqTxt << "Media de Trocas: " << mediaTrocas/qtdConjuntos << endl;
+        arqTxt << "Media de Tempo: " << mediaTempo/qtdConjuntos << endl;
+        arqTxt << "---------------------------------" << endl;
+
+        mediaComparacoes = 0;
+        mediaTrocas = 0;
+        mediaTempo = 0;
+        
     }
-    cout << "Comparacoes: " << sort->getComparacoes() << endl;
-    cout << "Trocas: " << sort->getTrocas() << endl;
-    cout << "Tempo: " << sort->getTempo() << endl;
-    delete sort;
+    
+
 }
 
 int main(int, char**) {
     string path = "./";
     createBinary(path);
 
-    ProductReview* pr = new ProductReview("", "", 0.0, "");
-    ProductReview* produtos = pr->import(1000000); //5737229 3953
-    ProductReview *produtos2 = new ProductReview[1000000];
-
-    for (int i = 0; i < 1000000; i++)
-    {
-        produtos2[i] = produtos[i];
-    }
-    
-
-    Sort s;
-    high_resolution_clock::time_point inicio = high_resolution_clock::now();
-    s.mergeSort(produtos, 0, 999999);
-    high_resolution_clock::time_point fim = high_resolution_clock::now();
-    cout << "Tempo gasto MergeSort " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
-
-    inicio = high_resolution_clock::now();
-    s.timSort(produtos2, 1000000);
-    fim = high_resolution_clock::now();
-    cout << "Tempo gasto TimSort " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
-
-    cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl;
+    cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl << "2 - Tim Sort" << endl;
     int metodo;
     cin >> metodo;
-    sort(produtos, 10, metodo);
+    gerarMetricas(metodo);
     
     
 }

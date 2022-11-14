@@ -9,6 +9,11 @@ using namespace std;
     // Funções de Ordenação
 
 void Sort::mergeSort(ProductReview *vetor, int inicio, int fim) {
+    this->comparacoes = 0;
+    this->trocas = 0;
+    this->tempo = 0;
+
+
     if (inicio < fim) {
         int meio = (inicio + fim) / 2;
         mergeSort(vetor, inicio, meio);
@@ -16,6 +21,7 @@ void Sort::mergeSort(ProductReview *vetor, int inicio, int fim) {
         merge(vetor, inicio, meio, fim);
     }
 }
+
 Sort::Sort() {
     this->comparacoes = 0;
     this->trocas = 0;
@@ -99,7 +105,7 @@ void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
     this->tempo = duration_cast<duration<double>>(end - start).count();
 }
 
-void insertionSort(ProductReview *vetor, int inicio, int fim) //Utilizamos insertionSort pois ele é eficiente em arrays pequenos
+void Sort::insertionSort(ProductReview *vetor, int inicio, int fim) //Utilizamos insertionSort pois ele é eficiente em arrays pequenos
 {
     //Adaptamos o algoritmo pois agora vamos ordenar subarrays e não o array inteiro
     for(int i = inicio + 1; i < fim; i++)
@@ -109,9 +115,10 @@ void insertionSort(ProductReview *vetor, int inicio, int fim) //Utilizamos inser
         while(j > inicio && pivo.getUserId() < vetor[j-1].getUserId())
         {
             vetor[j] = vetor[j-1];
+            this->trocas++;
             j--;
         }
-
+        this->comparacoes++;
         vetor[j] = pivo;
     }
 }
@@ -119,6 +126,11 @@ void insertionSort(ProductReview *vetor, int inicio, int fim) //Utilizamos inser
 //3° Algoritmo Escolhido - TimSort
 void Sort::timSort(ProductReview *vetor, int n)
 {
+    this->comparacoes = 0;
+    this->trocas = 0;
+    this->tempo = 0;
+
+
     int tamSubArray = 32; // tamanho do subarray
     
     for (int i = 0; i < n; i += tamSubArray) // percorre o vetor de tamSubArray em tamSubArray
