@@ -42,7 +42,7 @@ class Sort
         //Funções de Ordenação
         void mergeSort(ProductReview *vetor, int inicio, int fim);
         void quickSort(ProductReview *vetor, int inicio, int fim);
-        
+        void timSort(ProductReview *vetor, int n);
         
 };
 

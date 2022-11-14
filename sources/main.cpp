@@ -53,10 +53,26 @@ int main(int, char**) {
     createBinary(path);
 
     ProductReview* pr = new ProductReview("", "", 0.0, "");
-    ProductReview* produtos = pr->import(10); //5737229 3953
-    for (int i = 0; i < 10; i++) {
-        produtos[i].print();
+    ProductReview* produtos = pr->import(1000000); //5737229 3953
+    ProductReview *produtos2 = new ProductReview[1000000];
+
+    for (int i = 0; i < 1000000; i++)
+    {
+        produtos2[i] = produtos[i];
     }
+    
+
+    Sort s;
+    high_resolution_clock::time_point inicio = high_resolution_clock::now();
+    s.mergeSort(produtos, 0, 999999);
+    high_resolution_clock::time_point fim = high_resolution_clock::now();
+    cout << "Tempo gasto MergeSort " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
+
+    inicio = high_resolution_clock::now();
+    s.timSort(produtos2, 1000000);
+    fim = high_resolution_clock::now();
+    cout << "Tempo gasto TimSort " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
+
     cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl;
     int metodo;
     cin >> metodo;

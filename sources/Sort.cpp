@@ -68,6 +68,7 @@ void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) { // Funç
 
     delete[] aux;
 }           
+
 void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
     high_resolution_clock::time_point start = high_resolution_clock::now();
     int i, j, meio;
@@ -97,3 +98,44 @@ void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
     high_resolution_clock::time_point end = high_resolution_clock::now();
     this->tempo = duration_cast<duration<double>>(end - start).count();
 }
+
+void insertionSort(ProductReview *vetor, int inicio, int fim) //Utilizamos insertionSort pois ele é eficiente em arrays pequenos
+{
+    //Adaptamos o algoritmo pois agora vamos ordenar subarrays e não o array inteiro
+    for(int i = inicio + 1; i < fim; i++)
+    {
+        int j = i+1;
+        ProductReview pivo = vetor[j];
+        while(j > inicio && pivo.getUserId() < vetor[j-1].getUserId())
+        {
+            vetor[j] = vetor[j-1];
+            j--;
+        }
+
+        vetor[j] = pivo;
+    }
+}
+
+//3° Algoritmo Escolhido - TimSort
+void Sort::timSort(ProductReview *vetor, int n)
+{
+    int tamSubArray = 32; // tamanho do subarray
+    
+    for (int i = 0; i < n; i += tamSubArray) // percorre o vetor de tamSubArray em tamSubArray
+        insertionSort(vetor, i, min((i+tamSubArray-1), (n-1))); //ordena os subarrays de tamanho 32
+ 
+    for (int tam = tamSubArray; tam < n; tam = 2 * tam) //
+    {
+        for (int esquerda = 0; esquerda < n; esquerda += 2 * tam)
+        {
+            int meio = esquerda + tam - 1;
+            int direita = min((esquerda + 2*tam - 1), (n-1)); // pega o menor valor entre o tamanho do vetor e o tamanho do subarray
+
+            if(meio < direita)
+                this->merge(vetor, esquerda, meio, direita); //Utiliza-se o Merge já implementado para juntar os subarrays
+        }
+    }
+}
+
+
+
