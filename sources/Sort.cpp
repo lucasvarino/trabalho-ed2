@@ -6,6 +6,8 @@
 
 using namespace std;
 
+    // Funções de Ordenação
+
 void Sort::mergeSort(ProductReview *vetor, int inicio, int fim) {
     if (inicio < fim) {
         int meio = (inicio + fim) / 2;
@@ -22,16 +24,22 @@ Sort::Sort() {
 Sort::~Sort() {
 }
 
-void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) {
-    int i, j, k, tam;
-    ProductReview *aux = new ProductReview[fim - inicio + 1];
+    // Funções Auxiliares
 
+void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) { // Função de Merge
+
+    //Declarando variaveis auxiliares   
+    int i, j, k, tam; 
     tam = meio - inicio + 1;
     i = 0;
     j = meio + 1;
     k = 0;
 
-    while (i < tam && j <= fim) {
+    // Criação do vetor auxiliar alocado dinamicamente
+    ProductReview *aux = new ProductReview[fim - inicio + 1];  
+
+    // Processo de separação dos vetores, e posteriormente a junção ordenada dos mesmos
+    while (i < tam && j <= fim) {   
         if (vetor[inicio + i].getUserId() < vetor[j].getUserId()) {
             aux[k] = vetor[inicio + i];
             i++;
@@ -59,7 +67,7 @@ void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) {
     }
 
     delete[] aux;
-}
+}           
 void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
     high_resolution_clock::time_point start = high_resolution_clock::now();
     int i, j, meio;
