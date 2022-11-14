@@ -72,7 +72,6 @@ void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
 
     do {
         while (vetor[i].getUserId() < pivo.getUserId()) i = i + 1;
-        this->comparacoes++;
         while (vetor[j].getUserId() > pivo.getUserId()) j = j - 1;
         this->comparacoes++;
         if (i <= j) {
@@ -80,7 +79,6 @@ void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
             vetor[i] = vetor[j];
             vetor[j] = aux;
             this->trocas++;
-            cout<<"troca"<<endl;
             i = i + 1;
             j = j - 1;
         }
