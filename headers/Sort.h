@@ -21,11 +21,14 @@ class Sort
 
         // Funções Auxiliares
         void merge(ProductReview *vetor, int inicio, int meio, int fim);
+        
     public:
-    //constructor
+        //constructor
         Sort();
-    //destructor
+
+         //destructor
         ~Sort();
+
         // Funções Get
         int getComparacoes() {return comparacoes;};     
         int getTrocas() {return trocas;};
@@ -39,12 +42,6 @@ class Sort
         //Funções de Ordenação
         void mergeSort(ProductReview *vetor, int inicio, int fim);
         void quickSort(ProductReview *vetor, int inicio, int fim);
-        int getComparacoes(){return this->comparacoes;};
-        int getTrocas(){return this->trocas;};
-        double getTempo(){return this->tempo;};
-        void setComparacoes(int comparacoes){this->comparacoes = comparacoes;};
-        void setTrocas(int trocas){this->trocas = trocas;};
-        void setTempo(double tempo){this->tempo = tempo;};
         
 };
 
