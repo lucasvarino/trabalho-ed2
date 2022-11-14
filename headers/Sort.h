@@ -43,6 +43,7 @@ class Sort
         void mergeSort(ProductReview *vetor, int inicio, int fim);
         void quickSort(ProductReview *vetor, int inicio, int fim);
         
+        
 };
 
 

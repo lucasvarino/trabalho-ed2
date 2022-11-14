@@ -29,6 +29,24 @@ void createBinary(string &path)
     cout << "Arquivo binário criado." << endl << "Tempo gasto para a criação: " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
     
 }
+void sort(ProductReview *vet, int n, int methodId){
+    Sort *sort = new Sort();
+    switch (methodId)
+    {
+    case 0:
+        sort->quickSort(vet, 0, n-1);
+        break;
+    case 1:
+        sort->mergeSort(vet, 0, n-1);
+        break;
+    default:
+        break;
+    }
+    cout << "Comparacoes: " << sort->getComparacoes() << endl;
+    cout << "Trocas: " << sort->getTrocas() << endl;
+    cout << "Tempo: " << sort->getTempo() << endl;
+    delete sort;
+}
 
 int main(int, char**) {
     string path = "./";
@@ -39,15 +57,10 @@ int main(int, char**) {
     for (int i = 0; i < 10; i++) {
         produtos[i].print();
     }
-    Sort s =  Sort();
-    s.quickSort(produtos, 0, 9);
-    cout << "Ordenado" << endl;
-    for (int i = 0; i < 10; i++) {
-        produtos[i].print();
-    }
-    cout << s.getTrocas() <<endl;
-    cout << s.getComparacoes() <<endl;
-    cout << s.getTempo() << "Segundos" <<endl;
+    cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl;
+    int metodo;
+    cin >> metodo;
+    sort(produtos, 10, metodo);
     
     
 }
