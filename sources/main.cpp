@@ -39,6 +39,9 @@ void sort(ProductReview *vet, int n, int methodId){
     case 1:
         sort->mergeSort(vet, 0, n-1);
         break;
+    case 2:
+        sort->timSort(vet, n);
+        break;
     default:
         break;
     }
@@ -73,7 +76,7 @@ int main(int, char**) {
     fim = high_resolution_clock::now();
     cout << "Tempo gasto TimSort " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
 
-    cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl;
+    cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<< "2- Tim Sort"<<endl;
     int metodo;
     cin >> metodo;
     sort(produtos, 10, metodo);
