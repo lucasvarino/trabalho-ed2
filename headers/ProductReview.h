@@ -30,10 +30,10 @@ class ProductReview
         void setTimestamp(string newTimestamp) { this->timestamp = newTimestamp; };
 
         void print();
-        ProductReview* import(int n);
-        ProductReview* getProductReview(int indice); 
-        void getReview (int indice);  // chama o import e o printa
-        static void createBinary(string dirCsv);
+        ProductReview* import(int n); // Importa n registros do arquivo .bin
+        ProductReview* getProductReview(int indice); // Retorna o registro de um determinado índice
+        void getReview (int indice);  // Printa um registro de um determinado índice
+        static void createBinary(string dirCsv); // cria o arquivo binário, estático para ser chamado sem instanciar a classe
 };
 
 
