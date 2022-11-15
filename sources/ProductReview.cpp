@@ -147,3 +147,7 @@ void ProductReview::createBinary(string dirCsv)
 
     arqCsv.close();
 }
+
+void ProductReview::getReview (int indice){
+    
+}
