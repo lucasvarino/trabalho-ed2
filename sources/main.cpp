@@ -68,6 +68,7 @@ RegistroHash *createTable(int n)
 
     return hash->getVetor();
 }
+
 void createBinary(string &path)
 {
     high_resolution_clock::time_point inicio = high_resolution_clock::now();
@@ -88,6 +89,7 @@ void createBinary(string &path)
     cout << "Arquivo binário criado." << endl
          << "Tempo gasto para a criação: " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
 }
+
 Sort *sort(ProductReview *vet, int n, int methodId)
 {
     Sort *sort = new Sort();
@@ -108,7 +110,8 @@ Sort *sort(ProductReview *vet, int n, int methodId)
     return sort;
 }
 
-void gerarMetricas(int methodId) {
+void gerarMetricas(int methodId)
+{
     ifstream arq2("input.dat", ios::in | ios::binary);
 
     vector<int> tamConjuntos;
@@ -127,16 +130,18 @@ void gerarMetricas(int methodId) {
 
         for (int i = 0; i < 5; i++)
         {
-            arq.write(reinterpret_cast<char*>(&tamConjuntos.at(i)), sizeof(int));
+            arq.write(reinterpret_cast<char *>(&tamConjuntos.at(i)), sizeof(int));
         }
-    } else {
+    }
+    else
+    {
         cout << "Arquivo de Input .dat encontrado." << endl;
         cout << "Lendo valores do arquivo..." << endl;
-        
+
         while (!arq2.eof())
         {
             int tam;
-            arq2.read(reinterpret_cast<char*>(&tam), sizeof(int));
+            arq2.read(reinterpret_cast<char *>(&tam), sizeof(int));
             tamConjuntos.push_back(tam);
         }
     }
@@ -193,7 +198,8 @@ void gerarMetricas(int methodId) {
     }
 }
 
-void printMenu(){
+void printMenu()
+{
     cout << "Menu de opções" << endl;
     cout << "Escolha sua opção" << endl;
     cout << "1 Ordenação" << endl;
@@ -239,17 +245,17 @@ void printMenu(){
     }
 }
 
-    int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
+{
+
+    if (argc <= 1)
     {
-
-        if (argc <= 1)
-        {
-            cout << "ERRO: Caminho não informado." << endl;
-            return 0;
-        }
-
-        string path = argv[1];
-
-        createBinary(path);
-        printMenu();
+        cout << "ERRO: Caminho não informado." << endl;
+        return 0;
     }
+
+    string path = argv[1];
+
+    createBinary(path);
+    printMenu();
+}
