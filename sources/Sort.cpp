@@ -75,8 +75,9 @@ void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) { // Funç
     delete[] aux;
 }           
 
+//Implementando o QuickSort
 void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
-    high_resolution_clock::time_point start = high_resolution_clock::now();
+    high_resolution_clock::time_point start = high_resolution_clock::now();//definindo tempo inicial
     int i, j, meio;
     ProductReview pivo, aux;
 
@@ -87,9 +88,9 @@ void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
 
     do {
         while (vetor[i].getUserId() < pivo.getUserId()) i = i + 1;
-        while (vetor[j].getUserId() > pivo.getUserId()) j = j - 1;
+        while (vetor[j].getUserId() > pivo.getUserId()) j = j - 1;//Compara se as posições são maiores ou menores que o pivo
         this->comparacoes++;
-        if (i <= j) {
+        if (i <= j) {//Se a posição i for menor ou igual a posição j, então troca os valores
             aux = vetor[i];
             vetor[i] = vetor[j];
             vetor[j] = aux;
@@ -99,10 +100,10 @@ void Sort::quickSort(ProductReview *vetor, int inicio, int fim) {
         }
     } while (j > i);
 
-    if (inicio < j) quickSort(vetor, inicio, j);
-    if (i < fim) quickSort(vetor, i, fim);
-    high_resolution_clock::time_point end = high_resolution_clock::now();
-    this->tempo = duration_cast<duration<double>>(end - start).count();
+    if (inicio < j) quickSort(vetor, inicio, j);//Se a posição inicial for menor que a posição j, então chama a função novamente
+    if (i < fim) quickSort(vetor, i, fim);      //Se a posição i for menor que a posição final, então chama a função novamente
+    high_resolution_clock::time_point end = high_resolution_clock::now();   //definindo tempo final
+    this->tempo = duration_cast<duration<double>>(end - start).count();   //calculando tempo total
 }
 
 void Sort::insertionSort(ProductReview *vetor, int inicio, int fim) //Utilizamos insertionSort pois ele é eficiente em arrays pequenos

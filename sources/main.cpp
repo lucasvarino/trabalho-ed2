@@ -13,11 +13,12 @@
 using namespace std;
 using namespace std::chrono;
 
-//Fisher-Yates Shuffle
-int* shuffle(int *vetor, int tamanho) {
+// Fisher-Yates Shuffle
+int *shuffle(int *vetor, int tamanho)
+{
     int i, j;
     int aux;
-    
+
     unsigned seed = system_clock::now().time_since_epoch().count();
     srand(seed);
 
@@ -26,7 +27,8 @@ int* shuffle(int *vetor, int tamanho) {
         vetor[i] = i;
     }
 
-    for (i = TOTAL_REGISTROS - MIN - 1; i > 0; i--) {
+    for (i = TOTAL_REGISTROS - MIN - 1; i > 0; i--)
+    {
         j = rand() % (i + 1);
         aux = vetor[i];
         vetor[i] = vetor[j];
@@ -40,17 +42,17 @@ int* shuffle(int *vetor, int tamanho) {
         vetorAleatorio[i] = vetor[i];
     }
 
-    delete [] vetor;
+    delete[] vetor;
 
     return vetorAleatorio;
-    
 }
 
-RegistroHash *createTable(int n) {
-    int *indices = new int[TOTAL_REGISTROS];    
+RegistroHash *createTable(int n)
+{
+    int *indices = new int[TOTAL_REGISTROS];
     int *aleatorios = shuffle(indices, n);
     ProductReview aux;
-    
+
     ProductReview *vet = new ProductReview[n];
     Hash *hash = new Hash(n);
 
@@ -62,7 +64,7 @@ RegistroHash *createTable(int n) {
         registro->qtdReviews = 1;
         hash->insert(vet[i].getProductId(), registro);
     }
-    
+
     return hash->getVetor();
 }
 void createBinary(string &path)
@@ -70,40 +72,43 @@ void createBinary(string &path)
     high_resolution_clock::time_point inicio = high_resolution_clock::now();
     string dirBin = path + FILE_NAME + ".bin";
     string dirCsv = path + FILE_NAME;
-    
+
     ifstream arqBin(dirBin, ios::in);
 
-    if (arqBin.is_open()) {
-        cout << "O arquivo binário já foi criado." << endl; 
+    if (arqBin.is_open())
+    {
+        cout << "O arquivo binário já foi criado." << endl;
         return;
     }
     cout << "Criando arquivo binário..." << endl;
     ProductReview::createBinary(dirCsv);
     high_resolution_clock::time_point fim = high_resolution_clock::now();
 
-    cout << "Arquivo binário criado." << endl << "Tempo gasto para a criação: " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
-    
+    cout << "Arquivo binário criado." << endl
+         << "Tempo gasto para a criação: " << duration_cast<duration<double>>(fim - inicio).count() << " segundos" << endl;
 }
-Sort* sort(ProductReview *vet, int n, int methodId){
+Sort *sort(ProductReview *vet, int n, int methodId)
+{
     Sort *sort = new Sort();
     switch (methodId)
     {
     case 0:
-        sort->quickSort(vet, 0, n-1);
+        sort->quickSort(vet, 0, n - 1);
         break;
     case 1:
-        sort->mergeSort(vet, 0, n-1);
+        sort->mergeSort(vet, 0, n - 1);
         break;
     case 2:
         sort->timSort(vet, n);
         break;
     default:
         break;
-    }   
+    }
     return sort;
 }
 
-void gerarMetricas(int methodId) {
+void gerarMetricas(int methodId)
+{
     int tamConjuntos[5] = {1000, 50000, 100000, 500000, 1000000};
     int qtdConjuntos = 3;
     ProductReview pr;
@@ -116,7 +121,8 @@ void gerarMetricas(int methodId) {
     arqTxt << "---------------------" << endl;
     arqTxt << "Método " << methodId << endl;
     arqTxt << "---------------------" << endl;
-    arqTxt << endl << endl;
+    arqTxt << endl
+           << endl;
 
     for (int i = 0; i < 5; i++)
     {
@@ -140,39 +146,25 @@ void gerarMetricas(int methodId) {
             arqTxt << "Tempo: " << metricas->getTempo() << endl;
             arqTxt << endl;
 
-            delete [] conjunto;
+            delete[] conjunto;
             delete metricas;
         }
 
         arqTxt << endl;
-        arqTxt << "Media de Comparacoes: " << mediaComparacoes/qtdConjuntos << endl;
-        arqTxt << "Media de Trocas: " << mediaTrocas/qtdConjuntos << endl;
-        arqTxt << "Media de Tempo: " << mediaTempo/qtdConjuntos << endl;
+        arqTxt << "Media de Comparacoes: " << mediaComparacoes / qtdConjuntos << endl;
+        arqTxt << "Media de Trocas: " << mediaTrocas / qtdConjuntos << endl;
+        arqTxt << "Media de Tempo: " << mediaTempo / qtdConjuntos << endl;
         arqTxt << "---------------------------------" << endl;
 
         mediaComparacoes = 0;
         mediaTrocas = 0;
         mediaTempo = 0;
-        
     }
-    
-
 }
 
-int main(int argc, char const *argv[]) {
-
-    if(argc <= 1) {
-        cout << "ERRO: Caminho não informado." << endl;
-        return 0;
-    }
-    
-    string path = argv[1];
-
-    createBinary(path);
-
-
+void printMenu(){
     cout << "Menu de opções" << endl;
-    cout <<"Escolha sua opção" << endl;
+    cout << "Escolha sua opção" << endl;
     cout << "1 Ordenação" << endl;
     cout << "2 Hash" << endl;
     int opcao;
@@ -180,23 +172,53 @@ int main(int argc, char const *argv[]) {
     switch (opcao)
     {
     case 1:
-        cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl << "2 - Tim Sort" << endl;
+    {
+        cout << "Seleciona o método" << endl
+             << "0 - Quick Sort" << endl
+             << "1 - Merge Sort" << endl
+             << "2 - Tim Sort" << endl;
         int metodo;
         cin >> metodo;
         gerarMetricas(metodo);
-        main(1, argv);
+        printMenu();
         break;
-    case 2: 
+    }
+    case 2:
+    {
         cout << "Insira o tamanho da tabela hash" << endl;
         int tamanho;
         cin >> tamanho;
-        createTable(tamanho);
-        main(1, argv);
+        RegistroHash *vet = createTable(tamanho);
+        Hash::quickSortHash(vet, 0, tamanho - 1);
+        cout << "Insira a quantidade produtos que deseja ver" << endl;
+        int qtd;
+        cin >> qtd;
+        for (int i = 0; i < qtd; i++)
+        {
+            cout << "Produto: " << vet[i].productId << " Quantidade de reviews: " << vet[i].qtdReviews << endl;
+        }
+        printMenu();
         break;
-    default:
-        cout << "Saindo do Programa..." << endl;
-        return 0;
     }
-    
-    
+    default:
+    {
+        cout << "Saindo do Programa..." << endl;
+        return;
+    }
+    }
 }
+
+    int main(int argc, char const *argv[])
+    {
+
+        if (argc <= 1)
+        {
+            cout << "ERRO: Caminho não informado." << endl;
+            return 0;
+        }
+
+        string path = argv[1];
+
+        createBinary(path);
+        printMenu();
+    }

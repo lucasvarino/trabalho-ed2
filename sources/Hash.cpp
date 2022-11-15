@@ -11,7 +11,7 @@ using namespace std;
 
 //Funções Hash
 
-bool verificaPrimo(int tamanho) {
+bool verificaPrimo(int tamanho) { //Verifica se o número é primo
     int div = 0;
     for(int aux = 2 ; aux<= sqrt(tamanho) ; aux++)
         if(tamanho % aux == 0)
@@ -23,14 +23,14 @@ bool verificaPrimo(int tamanho) {
         return false;
 }
 
-int encontraPrimoProximo(int tamanho) {
+int encontraPrimoProximo(int tamanho) {//Encontra o próximo primo
     if(verificaPrimo(tamanho))
         return tamanho;
     
     return encontraPrimoProximo(tamanho+1);
 }
 
-Hash::Hash(int tamanho) {
+Hash::Hash(int tamanho) {///Construtor
     int primo = encontraPrimoProximo(tamanho);
     
     this->tam = primo;
@@ -39,11 +39,11 @@ Hash::Hash(int tamanho) {
 }
 
 
-Hash::~Hash(){
+Hash::~Hash(){  //Destrutor
     delete [] vetor;
 }
 
-long long Hash::transformaChave(string chave){
+long long Hash::transformaChave(string chave){  //Transforma a chave em um número
     long long soma = 0;
     for(unsigned int i = 0; i < chave.length(); i++){
         soma += (int)chave[i] * pow(31, i);
@@ -63,7 +63,7 @@ int Hash::hash(long long chave, int i){
     return (hash1(chave) + i * hash2(chave)) % tam;
 }
 
-void Hash::insert(string chave, RegistroHash *registro){
+void Hash::insert(string chave, RegistroHash *registro){    //Insere um registro na tabela
     int i = 0;
     int pos = hash(transformaChave(chave), i);
     while(vetor[pos].productId != ""){
@@ -77,7 +77,7 @@ void Hash::insert(string chave, RegistroHash *registro){
     vetor[pos] = *registro;
 }
 
-void Hash::search(string chave){
+void Hash::search(string chave){    //Busca um registro na tabela através da chave
     int i = 0;
     int pos = hash(transformaChave(chave), i);
     while(vetor[pos].productId != ""){
@@ -89,4 +89,30 @@ void Hash::search(string chave){
         pos = hash(transformaChave(chave), i);
     }
     cout << "Produto não encontrado" << endl;
+}
+
+
+void Hash::quickSortHash(RegistroHash *vetor, int inicio, int fim){
+    int i = inicio;
+    int j = fim;
+    RegistroHash aux;
+    RegistroHash pivo = vetor[(inicio + fim) / 2];
+
+    while(i <= j){
+        while(vetor[i].qtdReviews > pivo.qtdReviews)
+            i++;
+        while(vetor[j].qtdReviews < pivo.qtdReviews)
+            j--;
+        if(i <= j){
+            aux = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = aux;
+            i++;
+            j--;
+        }
+    }
+    if(j > inicio)
+        quickSortHash(vetor, inicio, j);
+    if(i < fim)
+        quickSortHash(vetor, i, fim);
 }

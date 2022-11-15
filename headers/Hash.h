@@ -33,6 +33,7 @@ class Hash
         void search(string chave);
         RegistroHash *getVetor() {return vetor;};
         int getTam() {return tam;};
+        static void quickSortHash(RegistroHash *vetor, int inicio, int fim);
 };
 
 
