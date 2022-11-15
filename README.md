@@ -9,9 +9,9 @@
 - Entre na pasta do repositório 
 - Rode o comando ```cmake -B build```
 - Entre na pasta build
-- Rode o comando ```./trabalho-ed2 ./diretorio/```
+- Rode o comando ```./trabalho-ed2-parte1 ./diretorio/```
 
 ## Instruções para rodar o projeto via g++
 - Entre na pasta do sources
-- Utilize o comando ```g++ *.cpp -o trabalho-ed2```
-- Execute utilizando ```./trabalho-ed2 ./diretorio/```
+- Utilize o comando ```g++ *.cpp -o trabalho-ed2-parte1```
+- Execute utilizando ```./trabalho-ed2-parte1 ./diretorio/```
