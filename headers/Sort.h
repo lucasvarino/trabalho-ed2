@@ -41,7 +41,7 @@ class Sort
         void setTempo(double tempo) {this->tempo = tempo;};   
         
         //Funções de Ordenação
-        void mergeSort(ProductReview *vetor, int inicio, int fim);
+        void mergeSort(ProductReview *vetor, int inicio, int fim, int* contador);
         void quickSort(ProductReview *vetor, int inicio, int fim);
         void timSort(ProductReview *vetor, int n);
         

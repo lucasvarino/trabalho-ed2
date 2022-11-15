@@ -99,7 +99,7 @@ Sort *sort(ProductReview *vet, int n, int methodId)
         sort->quickSort(vet, 0, n - 1);
         break;
     case 1:
-        sort->mergeSort(vet, 0, n - 1);
+        sort->mergeSort(vet, 0, n - 1, 0);
         break;
     case 2:
         sort->timSort(vet, n);

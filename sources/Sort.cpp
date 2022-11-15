@@ -8,16 +8,18 @@ using namespace std;
 
     // Funções de Ordenação
 
-void Sort::mergeSort(ProductReview *vetor, int inicio, int fim) {
-    this->comparacoes = 0;
-    this->trocas = 0;
-    this->tempo = 0;
-
+void Sort::mergeSort(ProductReview *vetor, int inicio, int fim, int* contador) {
+    
+    if (contador == 0) {
+        this->comparacoes = 0;
+        this->trocas = 0;
+        this->tempo = 0;
+    }    
 
     if (inicio < fim) {
         int meio = (inicio + fim) / 2;
-        mergeSort(vetor, inicio, meio);
-        mergeSort(vetor, meio + 1, fim);
+        mergeSort(vetor, inicio, meio, contador+1);
+        mergeSort(vetor, meio + 1, fim, contador+1);
         merge(vetor, inicio, meio, fim);
     }
 }
@@ -48,12 +50,14 @@ void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) { // Funç
     while (i < tam && j <= fim) {   
         if (vetor[inicio + i].getUserId() < vetor[j].getUserId()) {
             aux[k] = vetor[inicio + i];
+            
             i++;
         } else {
             aux[k] = vetor[j];
             j++;
         }
         k++;
+        this->comparacoes ++;
     }
 
     while (i < tam) {
@@ -70,6 +74,7 @@ void Sort::merge(ProductReview *vetor, int inicio, int meio, int fim) { // Funç
 
     for (i = inicio; i <= fim; i++) {
         vetor[i] = aux[i - inicio];
+        this->trocas ++;
     }
 
     delete[] aux;
