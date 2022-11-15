@@ -160,16 +160,29 @@ void gerarMetricas(int methodId) {
 int main(int, char**) {
     string path = "./";
     createBinary(path);
-
-    // cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl << "2 - Tim Sort" << endl;
-    // int metodo;
-    // cin >> metodo;
-    // gerarMetricas(metodo);
-    RegistroHash *reg = createTable(10);
-    
-    for (int i = 0; i < 10; i++)
+    cout << "Menu de opções" << endl;
+    cout <<"Escolha sua opção" << endl;
+    cout << "1 Ordenação" << endl;
+    cout << "2 Hash" << endl;
+    int opcao;
+    cin >> opcao;
+    switch (opcao)
     {
-        cout << reg[i].productId << " " << reg[i].qtdReviews << endl;
+    case 1:
+        cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl << "2 - Tim Sort" << endl;
+        int metodo;
+        cin >> metodo;
+        gerarMetricas(metodo);
+        break;
+    case 2: 
+        cout << "Insira o tamanho da tabela hash" << endl;
+        int tamanho;
+        cin >> tamanho;
+        createTable(tamanho);
+        break;
+    default:
+        cout << "Opção inválida" << endl;
+        break;
     }
     
     
