@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <chrono>
+#include <vector>
 #include "../headers/ProductReview.h"
 #include "../headers/Sort.h"
 #include "../headers/Hash.h"
@@ -107,9 +108,39 @@ Sort *sort(ProductReview *vet, int n, int methodId)
     return sort;
 }
 
-void gerarMetricas(int methodId)
-{
-    int tamConjuntos[5] = {1000, 50000, 100000, 500000, 1000000};
+void gerarMetricas(int methodId) {
+    ifstream arq2("input.dat", ios::in | ios::binary);
+
+    vector<int> tamConjuntos;
+
+    if (!arq2.is_open())
+    {
+        cout << "Arquivo de Input .dat não encontrado." << endl;
+        cout << "Gerando um Input com os valores padrão especificados no documento..." << endl;
+        ofstream arq("input.dat", ios::out | ios::binary | ios::app);
+
+        tamConjuntos.push_back(10000);
+        tamConjuntos.push_back(50000);
+        tamConjuntos.push_back(100000);
+        tamConjuntos.push_back(500000);
+        tamConjuntos.push_back(1000000);
+
+        for (int i = 0; i < 5; i++)
+        {
+            arq.write(reinterpret_cast<char*>(&tamConjuntos.at(i)), sizeof(int));
+        }
+    } else {
+        cout << "Arquivo de Input .dat encontrado." << endl;
+        cout << "Lendo valores do arquivo..." << endl;
+        
+        while (!arq2.eof())
+        {
+            int tam;
+            arq2.read(reinterpret_cast<char*>(&tam), sizeof(int));
+            tamConjuntos.push_back(tam);
+        }
+    }
+
     int qtdConjuntos = 3;
     ProductReview pr;
 
@@ -124,14 +155,14 @@ void gerarMetricas(int methodId)
     arqTxt << endl
            << endl;
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < tamConjuntos.size(); i++)
     {
         for (int j = 0; j < qtdConjuntos; j++)
         {
             high_resolution_clock::time_point inicio = high_resolution_clock::now();
 
-            ProductReview *conjunto = pr.import(tamConjuntos[i]);
-            Sort *metricas = sort(conjunto, tamConjuntos[i], methodId);
+            ProductReview *conjunto = pr.import(tamConjuntos.at(i));
+            Sort *metricas = sort(conjunto, tamConjuntos.at(i), methodId);
 
             high_resolution_clock::time_point fim = high_resolution_clock::now();
             metricas->setTempo(duration_cast<duration<double>>(fim - inicio).count());
@@ -140,7 +171,7 @@ void gerarMetricas(int methodId)
             mediaTrocas += metricas->getTrocas();
             mediaTempo += metricas->getTempo();
 
-            arqTxt << "Conjunto de Tamanho: " << tamConjuntos[i] << endl;
+            arqTxt << "Conjunto de Tamanho: " << tamConjuntos.at(i) << endl;
             arqTxt << "Comparacoes: " << metricas->getComparacoes() << endl;
             arqTxt << "Trocas: " << metricas->getTrocas() << endl;
             arqTxt << "Tempo: " << metricas->getTempo() << endl;
