@@ -40,6 +40,8 @@ int* shuffle(int *vetor, int tamanho) {
         vetorAleatorio[i] = vetor[i];
     }
 
+    delete [] vetor;
+
     return vetorAleatorio;
     
 }
@@ -157,9 +159,18 @@ void gerarMetricas(int methodId) {
 
 }
 
-int main(int, char**) {
-    string path = "./";
+int main(int argc, char const *argv[]) {
+
+    if(argc <= 1) {
+        cout << "ERRO: Caminho não informado." << endl;
+        return 0;
+    }
+    
+    string path = argv[1];
+
     createBinary(path);
+
+
     cout << "Menu de opções" << endl;
     cout <<"Escolha sua opção" << endl;
     cout << "1 Ordenação" << endl;
@@ -173,16 +184,18 @@ int main(int, char**) {
         int metodo;
         cin >> metodo;
         gerarMetricas(metodo);
+        main(1, argv);
         break;
     case 2: 
         cout << "Insira o tamanho da tabela hash" << endl;
         int tamanho;
         cin >> tamanho;
         createTable(tamanho);
+        main(1, argv);
         break;
     default:
-        cout << "Opção inválida" << endl;
-        break;
+        cout << "Saindo do Programa..." << endl;
+        return 0;
     }
     
     

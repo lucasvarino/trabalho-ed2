@@ -110,6 +110,13 @@ ProductReview* ProductReview::import(int n)
 void ProductReview::createBinary(string dirCsv)
 {
     ifstream arqCsv(dirCsv + ".csv", ios::in);
+
+    if(!arqCsv.is_open())
+    {
+        cout << "O arquivo csv não foi encontrado!" << endl;
+        exit(1);
+    }
+
     ofstream arqBin(dirCsv + ".bin", ios::out | ios::app | ios::binary);
 
     string user_idAux;
