@@ -6,7 +6,7 @@
 
 using namespace std;
 
-typedef struct RegistroHash{
+struct RegistroHash {
     string productId;
     int qtdReviews;
 };
@@ -23,6 +23,7 @@ class Hash
         int transformaChave(string chave);
 
     public:
+        Hash(int tamanho);
         Hash();
         ~Hash();
         

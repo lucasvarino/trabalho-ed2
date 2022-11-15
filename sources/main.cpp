@@ -7,13 +7,61 @@
 #include "../headers/Hash.h"
 
 #define FILE_NAME "ratings_Electronics"
+#define TOTAL_REGISTROS 7824483
+#define MIN 0
 
 using namespace std;
 using namespace std::chrono;
 
-RegistroHash *createTable(int n){
+//Fisher-Yates Shuffle
+int* shuffle(int *vetor, int tamanho) {
+    int i, j;
+    int aux;
     
+    unsigned seed = system_clock::now().time_since_epoch().count();
+    srand(seed);
 
+    for (int i = 0; i < TOTAL_REGISTROS; i++)
+    {
+        vetor[i] = i;
+    }
+
+    for (i = TOTAL_REGISTROS - MIN - 1; i > 0; i--) {
+        j = rand() % (i + 1);
+        aux = vetor[i];
+        vetor[i] = vetor[j];
+        vetor[j] = aux;
+    }
+
+    int *vetorAleatorio = new int[tamanho];
+
+    for (int i = 0; i < tamanho; i++)
+    {
+        vetorAleatorio[i] = vetor[i];
+    }
+
+    return vetorAleatorio;
+    
+}
+
+RegistroHash *createTable(int n) {
+    int *indices = new int[TOTAL_REGISTROS];    
+    int *aleatorios = shuffle(indices, n);
+    ProductReview aux;
+    
+    ProductReview *vet = new ProductReview[n];
+    Hash *hash = new Hash(n);
+
+    for (int i = 0; i < n; i++)
+    {
+        vet[i] = *aux.getReview(aleatorios[i]);
+        RegistroHash *registro = new RegistroHash;
+        registro->productId = vet[i].getProductId();
+        registro->qtdReviews = 1;
+        hash->insert(vet[i].getProductId(), registro);
+    }
+    
+    return hash->getVetor();
 }
 void createBinary(string &path)
 {
@@ -113,10 +161,16 @@ int main(int, char**) {
     string path = "./";
     createBinary(path);
 
-    cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl << "2 - Tim Sort" << endl;
-    int metodo;
-    cin >> metodo;
-    gerarMetricas(metodo);
+    // cout << "Seleciona o método"<<endl<<"0 - Quick Sort"<<endl<<"1 - Merge Sort"<<endl << "2 - Tim Sort" << endl;
+    // int metodo;
+    // cin >> metodo;
+    // gerarMetricas(metodo);
+    RegistroHash *reg = createTable(10);
+    
+    for (int i = 0; i < 10; i++)
+    {
+        cout << reg[i].productId << " " << reg[i].qtdReviews << endl;
+    }
     
     
 }
