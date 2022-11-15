@@ -149,5 +149,6 @@ void ProductReview::createBinary(string dirCsv)
 }
 
 void ProductReview::getReview (int indice){
-    
+    // imprime o ProductReview
+    ProductReview *pr = this->getProductReview(indice);
 }
