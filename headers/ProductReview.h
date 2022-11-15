@@ -13,6 +13,7 @@ class ProductReview
         string product_id;
         float rating;
         string timestamp;
+
     public:
         ProductReview();
         ProductReview(string user_id, string product_id, float rating, string timestamp);
@@ -30,7 +31,8 @@ class ProductReview
 
         void print();
         ProductReview* import(int n);
-        ProductReview* getReview(int indice);
+        ProductReview* getProductReview(int indice); 
+        void getReview (int indice);  // chama o import e o printa
         static void createBinary(string dirCsv);
 };
 

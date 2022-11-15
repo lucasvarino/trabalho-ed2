@@ -59,7 +59,7 @@ RegistroHash *createTable(int n)
 
     for (int i = 0; i < n; i++)
     {
-        vet[i] = *aux.getReview(aleatorios[i]);
+        vet[i] = *aux.getProductReview(aleatorios[i]);
         RegistroHash *registro = new RegistroHash;
         registro->productId = vet[i].getProductId();
         registro->qtdReviews = 1;

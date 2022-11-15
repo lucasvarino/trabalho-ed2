@@ -36,7 +36,7 @@ void ProductReview::print()
     cout << "Timestamp: " << this->timestamp << endl;
 }
 
-ProductReview* ProductReview::getReview(int indice)
+ProductReview* ProductReview::getProductReview(int indice)
 {
     fstream arq("ratings_Electronics.bin", ios::in | ios::binary);
 
@@ -99,7 +99,7 @@ ProductReview* ProductReview::import(int n)
     for (int i = 0; i < n; i++)
     {
         int indiceAleatorio = dist(rng); 
-        ProductReview *pr = this->getReview(indiceAleatorio);
+        ProductReview *pr = this->getProductReview(indiceAleatorio);
 
         vet[i] = *pr;
     }
