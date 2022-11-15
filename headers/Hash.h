@@ -18,9 +18,9 @@ class Hash
         RegistroHash *vetor;
         int m_linha;
 
-        int hash1(int chave);
-        int hash2(int chave);
-        int transformaChave(string chave);
+        int hash1(long long chave);
+        int hash2(long long chave);
+        long long transformaChave(string chave);
 
     public:
         Hash(int tamanho);
@@ -28,7 +28,7 @@ class Hash
         ~Hash();
         
 
-        int hash(int chave, int i);
+        int hash(long long chave, int i);
         void insert(string chave, RegistroHash *registro);
         void search(string chave);
         RegistroHash *getVetor() {return vetor;};

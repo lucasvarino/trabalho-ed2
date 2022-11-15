@@ -35,7 +35,7 @@ Hash::Hash(int tamanho) {
     
     this->tam = primo;
     this->m_linha = primo - 1;
-    this->vetor = new RegistroHash[tamanho];
+    this->vetor = new RegistroHash[this->tam];
 }
 
 
@@ -43,24 +43,24 @@ Hash::~Hash(){
     delete [] vetor;
 }
 
-int Hash::transformaChave(string chave){
-    int soma = 0;
-    for(int i = 0; i < chave.length(); i++){
-        soma += (int)chave[i];
+long long Hash::transformaChave(string chave){
+    long long soma = 0;
+    for(unsigned int i = 0; i < chave.length(); i++){
+        soma += (int)chave[i] * pow(31, i);
     }
     return soma;
 }
 
-int Hash::hash1(int chave){
+int Hash::hash1(long long chave){
     return chave % tam;
 }
 
-int Hash::hash2(int chave){
+int Hash::hash2(long long chave){
     return 1+(chave % m_linha);
 }
 
-int Hash::hash(int chave, int i){
-    return (hash1(chave) + i*hash2(chave)) % tam;
+int Hash::hash(long long chave, int i){
+    return (hash1(chave) + i * hash2(chave)) % tam;
 }
 
 void Hash::insert(string chave, RegistroHash *registro){
