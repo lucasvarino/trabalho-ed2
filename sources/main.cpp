@@ -4,12 +4,17 @@
 #include <chrono>
 #include "../headers/ProductReview.h"
 #include "../headers/Sort.h"
+#include "../headers/Hash.h"
 
 #define FILE_NAME "ratings_Electronics"
 
 using namespace std;
 using namespace std::chrono;
 
+RegistroHash *createTable(int n){
+    
+
+}
 void createBinary(string &path)
 {
     high_resolution_clock::time_point inicio = high_resolution_clock::now();

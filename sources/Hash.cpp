@@ -44,3 +44,17 @@ void Hash::insert(string chave, RegistroHash *registro){
     }
     vetor[pos] = *registro;
 }
+
+void Hash::search(string chave){
+    int i = 0;
+    int pos = hash(transformaChave(chave), i);
+    while(vetor[pos].productId != ""){
+        if(vetor[pos].productId == chave){
+            cout << "Produto: " << vetor[pos].productId << " - Qtd Reviews: " << vetor[pos].qtdReviews << endl;
+            return;
+        }
+        i++;
+        pos = hash(transformaChave(chave), i);
+    }
+    cout << "Produto não encontrado" << endl;
+}

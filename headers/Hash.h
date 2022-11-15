@@ -29,9 +29,9 @@ class Hash
 
         int hash(int chave, int i);
         void insert(string chave, RegistroHash *registro);
-        void remove();
-        void search();
-        void print();
+        void search(string chave);
+        RegistroHash *getVetor() {return vetor;};
+        int getTam() {return tam;};
 };
 
 
