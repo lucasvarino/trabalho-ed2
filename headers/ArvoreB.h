@@ -3,6 +3,7 @@
 
 
 #include "../headers/NoB.h"
+#include "../headers/ProductReview.h"
 #include <iostream>
 
 using namespace std;
@@ -14,8 +15,8 @@ class ArvoreB{
     public:
         ArvoreB(int _t);
         void print();
-        void insert(int k);
-        NoB* search(int k);
+        void insere(ProductReview *pr);
+        ProductReview* busca(string userID, string productID);
         void traverse();
 
 };

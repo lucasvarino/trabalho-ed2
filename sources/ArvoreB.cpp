@@ -1,4 +1,6 @@
 #include "../headers/ArvoreB.h"
+#include "../headers/ProductReview.h"
+#include "../headers/NoB.h"
 
 #include <iostream>
 
@@ -8,22 +10,28 @@ ArvoreB::ArvoreB(int t){
     root = NULL;
     this->t = t;
 }
-NoB* ArvoreB::search(int k){
+ProductReview* ArvoreB::busca(string userID, string productID){
+    string chave = userID+productID;
     if (root == NULL){
         cout<< "Arvore vazia" << endl;
         return NULL;
     }else{
-        return  root->search(k);
+        int *pos = new int;
+        NoB *aux =  root->search(chave, *pos);
+        ProductReview *pr = aux->getKey(*pos);
+        return pr;
+
     }
 }
-void ArvoreB::insert(int k)
+void ArvoreB::insere(ProductReview *pr)
 {
+    string chave = pr->getUserId()+pr->getProductId();
     // If tree is empty
     if (root == NULL)
     {
         // Allocate memory for root
         root = new NoB(t, true);
-        root->setKey(0,k);  // Insert key
+        root->setKey(0,*pr);  // Insert key
         root->setN(1);  // Update number of keys in root
     }
     else // If tree is not empty
@@ -43,19 +51,22 @@ void ArvoreB::insert(int k)
             // New root has two children now.  Decide which of the
             // two children is going to have new key
             int i = 0;
-            if (NosB->getKey(0)< k)
+            if (NosB->getId(0)< chave)
                 i++;
-            NosB->getC(i)->insertNonFull(k);
+            NosB->getC(i)->insertNonFull(chave, *pr);
  
             // Change root
             root = NosB;
         }
         else  // If root is not full, call insertNonFull for root
-            root->insertNonFull(k);
+            root->insertNonFull(chave, *pr);
     }
     
 }
 void ArvoreB::traverse()
 {
     if (root != NULL) root->traverse();
+}
+void ArvoreB::print(){
+    if (root != NULL) root->print();
 }
