@@ -15,7 +15,6 @@ private:
     map<string, int> dicionario;
     int dictSize = 256;
 
-    string vectorToString(const vector<int> &v);
     vector<int> stringToVector(string input);
 
 public:
@@ -23,6 +22,7 @@ public:
     ~LZW();
     vector<int> comprime(string uncompressed);
     string descomprime(vector<int> comprimida);
+    string vectorToString(const vector<int> &v);
 };
 
 #endif // LZW_H_INCLUDED

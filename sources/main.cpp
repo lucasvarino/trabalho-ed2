@@ -12,8 +12,12 @@
 #define TOTAL_REGISTROS 7824483
 #define MIN 0
 
+#define PATH "./"
+
 using namespace std;
 using namespace std::chrono;
+
+string path = "./";
 
 // Fisher-Yates Shuffle
 int *shuffle(int *vetor, int tamanho)
@@ -215,7 +219,7 @@ string comprime(string str, int metodo)
         break;
     case 2:
         // Compressão com o método de LZW
-        // return lzw->comprime(str);
+        return lzw->vectorToString(lzw->comprime(str));
         break;
     default:
         cout << "Saindo do programa..." << endl;
@@ -225,8 +229,52 @@ string comprime(string str, int metodo)
     return "";
 }
 
+void salvarStringEmBin(string str)
+{
+    ofstream arq(path + "reviewsComp.bin", ios::out | ios::binary | ios::app);
+    arq.write(reinterpret_cast<char *>(&str), sizeof(str));
+}
+
 void comprime(int metodo)
 {
+    fstream arq(path + "reviewsOrig.txt", ios::in);
+
+    if (!arq.is_open())
+    {
+        cout << "Arquivo de leitura de reviews não encontrado" << endl;
+        exit(0);
+    }
+
+    string str;
+    string comprimido;
+
+    while (!arq.eof())
+    {
+        getline(arq, str);
+    }
+
+    switch (metodo)
+    {
+    case 0:
+        // Compressão com o método de Huffman
+        cout << "Comprimindo com Huffman..." << endl;
+        break;
+    case 1:
+        // Compressão com o método de LZ77
+        cout << "Comprimindo com LZ77..." << endl;
+        break;
+    case 2:
+        // Compressão com o método de LZW
+        cout << "Comprimindo com LZW..." << endl;
+        comprimido = comprime(str, metodo);
+        cout << "Comprimido: " << comprimido << endl;
+        salvarStringEmBin(comprimido);
+        break;
+    default:
+        cout << "Saindo do programa..." << endl;
+        exit(0);
+        break;
+    }
 }
 
 void printMenu() // Menu de execução
@@ -235,7 +283,9 @@ void printMenu() // Menu de execução
     cout << "Escolha sua opção" << endl;
     cout << "1 Ordenação" << endl;
     cout << "2 Hash" << endl;
-    cout << "3 Sair" << endl;
+    cout << "3 Estruturas Balanceadas" << endl;
+    cout << "4 Compressão" << endl;
+    cout << "5 Sair" << endl;
     int opcao;
     cin >> opcao;
     switch (opcao)
@@ -269,17 +319,29 @@ void printMenu() // Menu de execução
         printMenu();
         break;
     }
+    case 3:
+    {
+        // Estruturas balanceadas
+        cout << "Estruturas Balanceadas" << endl;
+        break;
+    }
+    case 4:
+    {
+        cout << "Insira o método de compressão" << endl
+             << "0 - Huffman" << endl
+             << "1 - LZ77" << endl
+             << "2 - LZW" << endl;
+        int metodo;
+        cin >> metodo;
+        comprime(metodo);
+        printMenu();
+        break;
+    }
     default:
     {
-        LZW *lzw = new LZW();
-
-        vector<int> comprimido = lzw->comprime("dCode decodes LZW");
-
-        for (int i = 0; i < comprimido.size(); i++)
-        {
-            cout << comprimido[i] << " ";
-        }
-        return;
+        cout << "Saindo do programa..." << endl;
+        exit(0);
+        break;
     }
     }
 }
@@ -293,8 +355,8 @@ int main(int argc, char const *argv[])
         return 0;
     }
 
-    string path = argv[1];
-
-    createBinary(path);
+    string pathFile = argv[1];
+    path = pathFile;
+    createBinary(pathFile);
     printMenu();
 }
