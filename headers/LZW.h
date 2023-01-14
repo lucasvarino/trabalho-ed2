@@ -12,7 +12,7 @@ class LZW
 {
 
 private:
-    map<string, int> dictionary;
+    map<string, int> dicionario;
     int dictSize = 256;
 
     string vectorToString(const vector<int> &v);
@@ -21,8 +21,8 @@ private:
 public:
     LZW();
     ~LZW();
-    string comprime(string uncompressed);
-    string descomprime(string compressed);
+    vector<int> comprime(string uncompressed);
+    string descomprime(vector<int> comprimida);
 };
 
 #endif // LZW_H_INCLUDED

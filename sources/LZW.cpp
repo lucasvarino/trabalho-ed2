@@ -11,7 +11,7 @@ LZW::LZW()
 {
     for (int i = 0; i < 256; i++)
     {
-        dictionary[string(1, i)] = i;
+        dicionario[string(1, i)] = i;
     }
 }
 
@@ -39,68 +39,71 @@ vector<int> LZW::stringToVector(string input)
     return output;
 }
 
-string LZW::comprime(string uncompressed)
+vector<int> LZW::comprime(string comprimir)
 {
-    string w;
-    vector<int> result;
-    for (auto c : uncompressed)
-    {
-        string wc = w + c;
-        if (dictionary.count(wc))
-        {
-            w = wc;
-        }
-        else
-        {
-            result.push_back(dictionary[w]);
-            dictionary[wc] = dictSize++;
-            w = string(1, c);
-        }
-    }
-
-    if (!w.empty())
-    {
-        result.push_back(dictionary[w]);
-    }
-    return this->vectorToString(result);
-}
-
-string LZW::descomprime(string compressed)
-{
-    vector<int> input = this->stringToVector(compressed);
-    unordered_map<int, string> dictionary;
-
+    // Inicializa o dicionário com caracteres simples
     for (int i = 0; i < 256; i++)
     {
-        dictionary[i] = string(1, i);
+        dicionario[string(1, i)] = i;
     }
+    int proximoCodigo = 256;
 
-    string w = dictionary[input[0]];
-    string result = w;
-    string entry;
-    for (int i = 1; i < input.size(); i++)
+    string p = "";
+    vector<int> codigos;
+    for (char c : comprimir)
     {
-        int k = input[i];
-
-        if (dictionary.count(k))
+        string pc = p + c;
+        if (dicionario.count(pc))
         {
-            entry = dictionary[k];
-        }
-        else if (k == dictSize)
-        {
-            entry = w + w[0];
+            p = pc;
         }
         else
         {
-            throw "Erro na descompressão";
+            codigos.push_back(dicionario[p]);
+            dicionario[pc] = proximoCodigo++;
+            p = string(1, c);
         }
-
-        result += entry;
-
-        dictionary[dictSize++] = w + entry[0];
-
-        w = entry;
     }
+    // Adiciona o último conjunto ao vetor de códigos
+    if (!p.empty())
+    {
+        codigos.push_back(dicionario[p]);
+    }
+    return codigos;
+}
 
-    return result;
+string LZW::descomprime(vector<int> compressed)
+{
+    std::unordered_map<int, std::vector<int>> dictionary;
+    for (int i = 0; i < 256; i++)
+    {
+        dictionary[i] = {i};
+    }
+    int next_code = 256;
+    std::vector<int> decompressed;
+    int old_code = compressed[0];
+    decompressed.push_back(old_code);
+    for (int i = 1; i < compressed.size(); i++)
+    {
+        int current_code = compressed[i];
+        std::vector<int> current_string;
+        if (dictionary.count(current_code))
+        {
+            current_string = dictionary[current_code];
+        }
+        else
+        {
+            current_string = dictionary[old_code];
+            current_string.push_back(current_string[0]);
+        }
+        for (int j = 0; j < current_string.size(); j++)
+        {
+            decompressed.push_back(current_string[j]);
+        }
+        dictionary[next_code] = dictionary[old_code];
+        dictionary[next_code].push_back(current_string[0]);
+        next_code++;
+        old_code = current_code;
+    }
+    return this->vectorToString(decompressed);
 }

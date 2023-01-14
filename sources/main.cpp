@@ -200,6 +200,35 @@ void gerarMetricas(int methodId)
     }
 }
 
+string comprime(string str, int metodo)
+{
+    LZW *lzw = new LZW();
+    switch (metodo)
+    {
+    case 0:
+        // Compressão com o método de Huffman
+        cout << "Comprimindo com Huffman..." << endl;
+        break;
+    case 1:
+        // Compressão com o método de LZ77
+        cout << "Comprimindo com LZ77..." << endl;
+        break;
+    case 2:
+        // Compressão com o método de LZW
+        // return lzw->comprime(str);
+        break;
+    default:
+        cout << "Saindo do programa..." << endl;
+        exit(0);
+        break;
+    }
+    return "";
+}
+
+void comprime(int metodo)
+{
+}
+
 void printMenu() // Menu de execução
 {
     cout << "Menu de opções" << endl;
@@ -244,8 +273,12 @@ void printMenu() // Menu de execução
     {
         LZW *lzw = new LZW();
 
-        cout << "Compressão -> " << lzw->comprime("AAAABBABABBAABACCCBAC") << endl; //
+        vector<int> comprimido = lzw->comprime("dCode decodes LZW");
 
+        for (int i = 0; i < comprimido.size(); i++)
+        {
+            cout << comprimido[i] << " ";
+        }
         return;
     }
     }
