@@ -1,56 +1,38 @@
-#ifndef NOB_INCLUDED
-#define NOB_INCLUDED
+#ifndef NOB_H_INCLUDED
+#define NOB_H_INCLUDED
 
 #include <iostream>
-#include <string>
-#include <fstream>
 
 using namespace std;
 
 class NoB
 {
-private:
-    int *chaves;
-    int nChaves;
-    NoB **filhos;
-    int nFilhos;
-    bool folha;
-    NoB *pai;
-    string binLocation;
-    string id;
-
-
-
-public:
-    NoB(int ordem);
-    ~NoB();
-
-    int getNChaves() { return this->nChaves; };
-    int getNFilhos() { return this->nFilhos; };
-    bool getFolha() { return this->folha; };
-    NoB *getPai() { return this->pai; };
-    int *getChaves() { return this->chaves; };
-    NoB **getFilhos() { return this->filhos; };
-    string getBinLocation() { return this->binLocation; };
-    string getId() { return this->id; };
-
-    void setNChaves(int nChaves) { this->nChaves = nChaves; };
-    void setNFilhos(int nFilhos) { this->nFilhos = nFilhos; };
-    void setFolha(bool folha) { this->folha = folha; };
-    void setPai(NoB *pai) { this->pai = pai; };
-    void setChaves(int *chaves) { this->chaves = chaves; };
-    void setFilhos(NoB **filhos) { this->filhos = filhos; };
-    void setBinLocation(string binLocation) { this->binLocation = binLocation; };
-    void setId(string id) { this->id = id; };
-
-    void print();
-    void printChaves();
-    void printFilhos();
-    void printPai();
-    void printFolha();
-    void printNChaves();
-    void printNFilhos();
-    void printNo();
+    private:
+    int *keys;  // An array of keys
+    int t;      // Minimum degree (defines the range for number of keys)
+    NoB **C; // An array of child pointers
+    int n;     // Current number of keys
+    bool leaf; // Is true when node is leaf. Otherwise false
+        
+    public:
+    NoB(int _t, bool _leaf);   
+    void insertNonFull(int k);
+    void splitChild(int i, NoB *y);
+    void traverse();
+    NoB *search(int k);
+    int getN(){return n;};
+    void setN(int _n){n = _n;};
+    int getKey(int i){return keys[i];};
+    void setKey(int i, int k){keys[i] = k;};
+    int getT(){return t;};
+    void setT(int _t){t = _t;};
+    NoB* getC(int i){return C[i];};
+    void setC(int i, NoB* _C){C[i] = _C;};
 };
 
-#endif // NOB_INCLUDED
+
+
+
+
+
+#endif // NOB_H_INCLUDED

@@ -1,30 +1,23 @@
-#ifndef ARVOREB_INCLUDED
-#define ARVOREB_INCLUDED
-// TAD Arvore B
+#ifndef ARVOREB_H_INCLUDED
+#define ARVOREB_H_INCLUDED
+
+
 #include "../headers/NoB.h"
-#include "../headers/ProductReview.h"
 #include <iostream>
-#include <string>
-#include <fstream>
 
 using namespace std;
 
-class ArvoreB
-{
-private:
-    int ordem;
-    NoB *raiz;
-    string binLocation;
-    string id;
+class ArvoreB{
+    private:
+        NoB *root;
+        int t;
+    public:
+        ArvoreB(int _t);
+        void print();
+        void insert(int k);
+        NoB* search(int k);
+        void traverse();
 
-public:
-    ArvoreB(int ordem);
-    ~ArvoreB();
-
-    void insere(ProductReview *pr);
-    ProductReview *busca(string userId, string productId);
-    void print();
-    
 };
 
-#endif // ARVOREB_INCLUDED
+#endif // ARVOREB_H_INCLUDED
