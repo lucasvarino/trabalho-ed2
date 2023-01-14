@@ -356,8 +356,8 @@ void descomprime(int metodo)
     case 2:
         // Descompressão com o método de LZW
         cout << "Descomprimindo com LZW..." << endl;
-        descomprimido = descomprime(lzw->vectorToString(str), metodo);
-        cout << "Descomprimido: " << lzw->vectorToString(str) << endl;
+        descomprimido = descomprime(lzw->descomprime(str), metodo);
+        cout << "Descomprimido: " << descomprimido << endl;
         salvarDescompressao(descomprimido);
         break;
     default:
@@ -430,10 +430,7 @@ void printMenu() // Menu de execução
     }
     default:
     {
-        LZW *lzw = new LZW();
-
-        vector<int> comprimido = lzw->comprime("ATGTCGTCATGTCATGCTAGCTATGTGTCATGTATG");
-        cout << "Descomprimido: " << lzw->descomprime(comprimido) << endl;
+        cout << "Saindo do Programa..." << endl;
     }
     }
 }
