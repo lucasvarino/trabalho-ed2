@@ -21,12 +21,12 @@ LZW::~LZW()
 
 string LZW::vectorToString(const vector<int> &v)
 {
-    string result;
-    for (int i : v)
+    string output;
+    for (int c : v)
     {
-        result += static_cast<char>(i);
+        output.push_back(c);
     }
-    return result;
+    return output;
 }
 
 vector<int> LZW::stringToVector(string input)

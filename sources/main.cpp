@@ -3,6 +3,8 @@
 #include <fstream>
 #include <chrono>
 #include <vector>
+#include <sstream>
+#include <cstring>
 #include "../headers/ProductReview.h"
 #include "../headers/Sort.h"
 #include "../headers/Hash.h"
@@ -229,15 +231,20 @@ string comprime(string str, int metodo)
     return "";
 }
 
-void salvarStringEmBin(string str)
+void salvarStringEmBin(vector<int> str)
 {
-    ofstream arq(path + "reviewsComp.bin", ios::out | ios::binary | ios::app);
-    arq.write(reinterpret_cast<char *>(&str), sizeof(str));
+    ofstream arq(path + "reviewsComp.bin", ios::out | ios::binary | ios::trunc);
+
+    for (int i = 0; i < str.size(); i++)
+    {
+        arq.write(reinterpret_cast<char *>(&str.at(i)), sizeof(int));
+    }
 }
 
 void comprime(int metodo)
 {
     fstream arq(path + "reviewsOrig.txt", ios::in);
+    LZW *lzw = new LZW();
 
     if (!arq.is_open())
     {
@@ -268,7 +275,90 @@ void comprime(int metodo)
         cout << "Comprimindo com LZW..." << endl;
         comprimido = comprime(str, metodo);
         cout << "Comprimido: " << comprimido << endl;
-        salvarStringEmBin(comprimido);
+
+        salvarStringEmBin(lzw->comprime(str));
+        break;
+    default:
+        cout << "Saindo do programa..." << endl;
+        exit(0);
+        break;
+    }
+}
+
+string descomprime(string str, int metodo)
+{
+    LZW *lzw = new LZW();
+    switch (metodo)
+    {
+    case 0:
+        // Descompressão com o método de Huffman
+        cout << "Descomprimindo com Huffman..." << endl;
+        break;
+    case 1:
+        // Descompressão com o método de LZ77
+        cout << "Descomprimindo com LZ77..." << endl;
+        break;
+    case 2:
+        // Descompressão com o método de LZW
+        return lzw->descomprime(lzw->stringToVector(str));
+        break;
+    default:
+        cout << "Saindo do programa..." << endl;
+        exit(0);
+        break;
+    }
+    return "";
+}
+
+void salvarDescompressao(string str)
+{
+    ofstream arq(path + "reviewsDesc.txt", ios::out | ios::app);
+    arq << str;
+}
+
+void descomprime(int metodo)
+{
+    LZW *lzw = new LZW();
+    fstream arq(path + "reviewsComp.bin", ios::in | ios::binary);
+
+    if (!arq.is_open())
+    {
+        cout << "Arquivo de leitura de reviews não encontrado" << endl;
+        exit(0);
+    }
+
+    vector<int> str;
+    string descomprimido;
+
+    arq.seekg(0, std::ios::end);
+    int totalBytes = arq.tellg();
+
+    cout << "Total de Bytes: " << totalBytes << endl;
+
+    for (int i = 0; i < totalBytes / sizeof(int); i++)
+    {
+        int aux;
+        arq.seekg(i * sizeof(int));
+        arq.read(reinterpret_cast<char *>(&aux), sizeof(int));
+        str.push_back(aux);
+    }
+
+    switch (metodo)
+    {
+    case 0:
+        // Descompressão com o método de Huffman
+        cout << "Descomprimindo com Huffman..." << endl;
+        break;
+    case 1:
+        // Descompressão com o método de LZ77
+        cout << "Descomprimindo com LZ77..." << endl;
+        break;
+    case 2:
+        // Descompressão com o método de LZW
+        cout << "Descomprimindo com LZW..." << endl;
+        descomprimido = descomprime(lzw->vectorToString(str), metodo);
+        cout << "Descomprimido: " << lzw->vectorToString(str) << endl;
+        salvarDescompressao(descomprimido);
         break;
     default:
         cout << "Saindo do programa..." << endl;
@@ -334,14 +424,16 @@ void printMenu() // Menu de execução
         int metodo;
         cin >> metodo;
         comprime(metodo);
+        descomprime(metodo);
         printMenu();
         break;
     }
     default:
     {
-        cout << "Saindo do programa..." << endl;
-        exit(0);
-        break;
+        LZW *lzw = new LZW();
+
+        vector<int> comprimido = lzw->comprime("ATGTCGTCATGTCATGCTAGCTATGTGTCATGTATG");
+        cout << "Descomprimido: " << lzw->descomprime(comprimido) << endl;
     }
     }
 }
