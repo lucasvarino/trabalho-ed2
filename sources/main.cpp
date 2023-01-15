@@ -9,12 +9,11 @@
 #include "../headers/Sort.h"
 #include "../headers/Hash.h"
 #include "../headers/LZW.h"
+#include "../headers/LZ77.h"
 
 #define FILE_NAME "ratings_Electronics"
 #define TOTAL_REGISTROS 7824483
 #define MIN 0
-
-#define PATH "./"
 
 using namespace std;
 using namespace std::chrono;
@@ -430,7 +429,11 @@ void printMenu() // Menu de execução
     }
     default:
     {
-        cout << "Saindo do Programa..." << endl;
+        LZ77 *lz77 = new LZ77();
+        string comprimida = lz77->comprime("bananabanabofana"); // A saída deve ser (0,0,A)(1,1,B)(0,0,C)(2,1,B)(5,2,C)
+        // papaiapaiabofaias
+        // bananabanabofana
+        cout << "Comprimido: " << comprimida << endl;
     }
     }
 }
