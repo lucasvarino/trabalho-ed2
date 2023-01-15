@@ -208,6 +208,7 @@ void gerarMetricas(int methodId)
 string comprime(string str, int metodo)
 {
     LZW *lzw = new LZW();
+    LZ77 *lz77 = new LZ77();
     switch (metodo)
     {
     case 0:
@@ -217,6 +218,8 @@ string comprime(string str, int metodo)
     case 1:
         // Compressão com o método de LZ77
         cout << "Comprimindo com LZ77..." << endl;
+        return lz77->comprime(str);
+        delete lz77;
         break;
     case 2:
         // Compressão com o método de LZW
@@ -240,10 +243,20 @@ void salvarStringEmBin(vector<int> str)
     }
 }
 
+void salvarStringEmBin(string str)
+{
+    ofstream arq(path + "reviewsComp.bin", ios::out | ios::binary | ios::trunc);
+    for (int i = 0; i < str.size(); i++)
+    {
+        arq.write(reinterpret_cast<char *>(&str.at(i)), sizeof(char));
+    }
+}
+
 void comprime(int metodo)
 {
     fstream arq(path + "reviewsOrig.txt", ios::in);
     LZW *lzw = new LZW();
+    LZ77 *lz77 = new LZ77();
 
     if (!arq.is_open())
     {
@@ -268,6 +281,8 @@ void comprime(int metodo)
     case 1:
         // Compressão com o método de LZ77
         cout << "Comprimindo com LZ77..." << endl;
+        comprimido = comprime(str, metodo);
+        salvarStringEmBin(comprimido);
         break;
     case 2:
         // Compressão com o método de LZW
@@ -287,6 +302,7 @@ void comprime(int metodo)
 string descomprime(string str, int metodo)
 {
     LZW *lzw = new LZW();
+    LZ77 *lz77 = new LZ77();
     switch (metodo)
     {
     case 0:
@@ -296,6 +312,7 @@ string descomprime(string str, int metodo)
     case 1:
         // Descompressão com o método de LZ77
         cout << "Descomprimindo com LZ77..." << endl;
+        return lz77->descomprime(str);
         break;
     case 2:
         // Descompressão com o método de LZW
@@ -311,7 +328,7 @@ string descomprime(string str, int metodo)
 
 void salvarDescompressao(string str)
 {
-    ofstream arq(path + "reviewsDesc.txt", ios::out | ios::app);
+    ofstream arq(path + "reviewsDesc.txt", ios::out | ios::trunc);
     arq << str;
 }
 
@@ -326,21 +343,21 @@ void descomprime(int metodo)
         exit(0);
     }
 
-    vector<int> str;
+    string str;
     string descomprimido;
 
-    arq.seekg(0, std::ios::end);
-    int totalBytes = arq.tellg();
+    arq.seekg(0, ios::end);
+    int size = arq.tellg();
+    arq.seekg(0, ios::beg);
 
-    cout << "Total de Bytes: " << totalBytes << endl;
-
-    for (int i = 0; i < totalBytes / sizeof(int); i++)
+    for (int i = 0; i < size; i++)
     {
-        int aux;
-        arq.seekg(i * sizeof(int));
-        arq.read(reinterpret_cast<char *>(&aux), sizeof(int));
-        str.push_back(aux);
+        char c;
+        arq.read(reinterpret_cast<char *>(&c), sizeof(char));
+        str += c;
     }
+
+    cout << "str: " << str << endl;
 
     switch (metodo)
     {
@@ -351,11 +368,13 @@ void descomprime(int metodo)
     case 1:
         // Descompressão com o método de LZ77
         cout << "Descomprimindo com LZ77..." << endl;
+        descomprimido = descomprime(str, metodo);
+        salvarDescompressao(descomprimido);
         break;
     case 2:
         // Descompressão com o método de LZW
         cout << "Descomprimindo com LZW..." << endl;
-        descomprimido = descomprime(lzw->descomprime(str), metodo);
+        // descomprimido = descomprime(lzw->descomprime(str), metodo);
         cout << "Descomprimido: " << descomprimido << endl;
         salvarDescompressao(descomprimido);
         break;
@@ -429,11 +448,9 @@ void printMenu() // Menu de execução
     }
     default:
     {
-        LZ77 *lz77 = new LZ77();
-        string comprimida = lz77->comprime("bananabanabofana"); // A saída deve ser (0,0,A)(1,1,B)(0,0,C)(2,1,B)(5,2,C)
-        // papaiapaiabofaias
-        // bananabanabofana
-        cout << "Comprimido: " << comprimida << endl;
+        cout << "Saindo do programa..." << endl;
+        exit(0);
+        break;
     }
     }
 }
