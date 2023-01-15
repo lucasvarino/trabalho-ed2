@@ -13,6 +13,7 @@ ArvoreB::ArvoreB(int t){
     this->t = t;
 }
 ProductReview* ArvoreB::busca(string userID, string productID){
+    
     string chave = userID+productID;
     if (root == NULL){
         cout<< "Arvore vazia" << endl;
@@ -27,51 +28,38 @@ ProductReview* ArvoreB::busca(string userID, string productID){
 }
 void ArvoreB::insere(ProductReview *pr)
 {
-
-    high_resolution_clock::time_point inicio;
     string chave = pr->getUserId()+pr->getProductId();
     if (root == NULL)
     {
-       inicio = high_resolution_clock::now();
-        // Allocate memory for root
+        int comparacoes = 0;
         root = new NoB(t, true);
-        root->setKey(0,*pr);  // Insert key
-        root->setId(0,pr);  // Insert Id
-        root->setN(1);  // Update number of keys in root
+        root->setKey(0,*pr);  
+        root->setId(0,pr);  
+        root->setN(1); 
     }
-    else // If tree is not empty
+    else
     {
-        // If root is full, then tree grows in height
         if (root->getN() == 2*root->getT()-1)
         {
-            // Allocate memory for new root
-            NoB* NosB = new NoB(t, false);
- 
-            // Make old root as child of new root
-            NosB->setC(0,root);
- 
-            // Split the old root and move 1 key to the new root
-            NosB->splitChild(0, root);
- 
-            // New root has two children now.  Decide which of the
-            // two children is going to have new key
+            NoB* NoAux = new NoB(t, false);
+            NoAux->setC(0,root);
+            NoAux->split(0, root);
             int i = 0;
-            if (NosB->getId(0)< chave)
+            comparacoes++;
+            if (NoAux->getId(0)< chave){
                 i++;
-            NosB->getC(i)->insertNonFull(chave, *pr);
- 
-            // Change root
-            root = NosB;
+            }
+            NoAux->getC(i)->insertion(chave, *pr, comparacoes);
+            root = NoAux;
         }
-        else { // If root is not full, call insertNonFull for root
-            root->insertNonFull(chave, *pr);
+        else { 
+            root->insertion(chave, *pr, comparacoes);
         }
-        high_resolution_clock::time_point fim = high_resolution_clock::now();
-        duration<double> tempo = duration_cast<duration<double>>(fim - inicio);
+        setComparacoes(comparacoes);
     }
     
 }
-void ArvoreB::traverse()
+void ArvoreB::passseio()
 {
     if (root != NULL) root->traverse();
 }

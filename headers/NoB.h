@@ -19,8 +19,8 @@ class NoB
         
     public:
     NoB(int _t, bool _leaf);   
-    void insertNonFull(string k, ProductReview pr);
-    void splitChild(int i, NoB *y);
+    void insertion(string k, ProductReview pr, int &comparacoes);
+    void split(int i, NoB *y);
     void traverse();
     NoB *search(string chave, int &pos);
     int getN(){return n;};

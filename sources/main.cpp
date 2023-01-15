@@ -170,7 +170,7 @@ void gerarMetricas(int methodId)
             high_resolution_clock::time_point fim = high_resolution_clock::now();
             metricas->setTempo(duration_cast<duration<double>>(fim - inicio).count()); // Atribuindo o tempo de execução
 
-            mediaComparacoes += metricas->getComparacoes(); // Somando as comparações
+            mediaComparacoes += metricas->getComparacoes(); // Somando as comparacoees
             mediaTrocas += metricas->getTrocas();           // Somando as trocas
             mediaTempo += metricas->getTempo();             // Somando o tempo
 
@@ -246,7 +246,7 @@ void printMenu() // Menu de execução
     case 4:
     {
         double tempo;
-        int tamanho = 100000;
+        int tamanho = 1000000;
         int tam_busca = 100;
         int *vet = new int[TOTAL_REGISTROS];
         int *shuf = new int;
@@ -268,6 +268,7 @@ void printMenu() // Menu de execução
             fim = high_resolution_clock::now();
             tempo = duration_cast<duration<double>>(fim - inicio).count();
             cout << "Tempo de insercao: " << tempo << endl;
+            cout << "Número de Comparacoes" << arvore->getComparacoes() << endl;
 
             for (int k = 0; k < tam_busca; k++)
             {
@@ -277,6 +278,7 @@ void printMenu() // Menu de execução
             fim = high_resolution_clock::now();
             tempo = duration_cast<duration<double>>(fim - inicio).count();
             cout << "Tempo de busca: " << tempo << endl;
+            cout << "Número de Comparacoees" << arvore->getComparacoes() << endl;
             delete arvore;
         }
 
@@ -293,6 +295,7 @@ void printMenu() // Menu de execução
             fim = high_resolution_clock::now();
             tempo = duration_cast<duration<double>>(fim - inicio).count();
             cout << "Tempo de insercao: " << tempo << endl;
+            cout << "Número de Comparacoees" << arvore2->getComparacoes() << endl;
 
 
             for (int k = 0; k < tam_busca; k++)
@@ -303,7 +306,7 @@ void printMenu() // Menu de execução
             fim = high_resolution_clock::now();
             tempo = duration_cast<duration<double>>(fim - inicio).count();
             cout << "Tempo de busca: " << tempo << endl;
-
+            cout << "Número de Comparacoees" << arvore2->getComparacoes() << endl;
 
             delete arvore2;
         }

@@ -12,13 +12,16 @@ class ArvoreB{
     private:
         NoB *root;
         int t;
+        int comparacoes;
 
     public:
         ArvoreB(int _t);
         void print();
         void insere(ProductReview *pr);
         ProductReview* busca(string userID, string productID);
-        void traverse();
+        void passseio();
+        int getComparacoes(){return comparacoes;};
+        void setComparacoes(int _comparacoes){comparacoes = _comparacoes;};
 };
 
 #endif // ARVOREB_H_INCLUDED
