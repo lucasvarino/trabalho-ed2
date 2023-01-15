@@ -18,7 +18,7 @@ struct compare
 
 priority_queue<MinHeapNode*, vector<MinHeapNode*>, compare> minHeap;
 
-map<char, int> Huffman::frequencyTable(const string &text) {
+map<char, int> Huffman::tabelaDeFrequencia(const string &text) {
     map<char, int> frequency;
     for (char c : text) {
         frequency[c]++;
@@ -26,20 +26,20 @@ map<char, int> Huffman::frequencyTable(const string &text) {
     return frequency;
 }
 
-void Huffman::printCodes(struct MinHeapNode* root, string str)
+void Huffman::geraCodigos(struct MinHeapNode* root, string str)
 {
     if (!root)
         return;
     if (root->data != '$')
         encodingTable[root->data] = str;
 
-    printCodes(root->left, str + "0");
-    printCodes(root->right, str + "1");
+    geraCodigos(root->left, str + "0");
+    geraCodigos(root->right, str + "1");
 }
 
-void Huffman::BuildHuffmanTree(string text)
+void Huffman::CriaArvoreHuffman(string text)
 {
-    map<char, int> frequency = frequencyTable(text);
+    map<char, int> frequency = tabelaDeFrequencia(text);
     for (auto v : frequency) {
         minHeap.push(new MinHeapNode{ v.first, v.second, nullptr, nullptr });
     }
@@ -55,11 +55,11 @@ void Huffman::BuildHuffmanTree(string text)
         minHeap.push(new MinHeapNode{ '$', left->freq + right->freq, left, right });
     }
 
-    printCodes(minHeap.top(), "");
+    geraCodigos(minHeap.top(), "");
 }
 
 string Huffman::compress(const string &text) {
-    BuildHuffmanTree(text);
+    CriaArvoreHuffman(text);
     string compressedText;
 
     for (char c : text) {

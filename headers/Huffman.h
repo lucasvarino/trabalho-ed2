@@ -12,11 +12,11 @@ class Huffman {
 public:
     string compress(const string &text);
     string decompress(const string &compressedText);
-    void BuildHuffmanTree(string text);
+    void CriaArvoreHuffman(string text);
 
 private:
-    map<char, int> frequencyTable(const string &text);
-    void printCodes(struct MinHeapNode* root, string str);
+    map<char, int> tabelaDeFrequencia(const string &text);
+    void geraCodigos(struct MinHeapNode* root, string str);
     map<char, string> encodingTable;
     MinHeapNode* root;
 };
