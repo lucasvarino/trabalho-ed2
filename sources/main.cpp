@@ -6,6 +6,7 @@
 #include "../headers/ProductReview.h"
 #include "../headers/Sort.h"
 #include "../headers/Hash.h"
+#include "../headers/Huffman.h"
 
 #define FILE_NAME "ratings_Electronics"
 #define TOTAL_REGISTROS 7824483
