@@ -386,15 +386,51 @@ void descomprime(int metodo)
     }
 }
 
+void gerarMetricasCompressao(int metodo, int n)
+{
+    int *vet = new int[TOTAL_REGISTROS];
+    int *aleatorios = shuffle(vet, n);
+    string str = "";
+    ProductReview *aux;
+    ProductReview *reviews = new ProductReview[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        reviews[i] = *aux->getProductReview(aleatorios[i]);
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        str += reviews[i].getUserId();
+        str += reviews[i].getProductId();
+    }
+    int tamanho = str.size();
+    string comprimida = comprime(str, metodo);
+
+    int tamanhoComprimida = comprimida.size();
+
+    // Calcular a taxa de compressão
+    float taxa = ((float)tamanho - (float)tamanhoComprimida / (float)tamanho) * 100;
+
+    ofstream arq(path + "saida.txt", ios::out | ios::app);
+    arq << "------------------------------------------" << endl;
+    arq << "Método: " << metodo << endl;
+    arq << "Tamanho original: " << tamanho << endl;
+    arq << "Tamanho comprimido: " << tamanhoComprimida << endl;
+    arq << "Taxa de compressão: " << taxa << "%" << endl;
+    arq << "------------------------------------------" << endl;
+}
+
 void printMenu() // Menu de execução
 {
-    cout << "Menu de opções" << endl;
-    cout << "Escolha sua opção" << endl;
-    cout << "1 Ordenação" << endl;
-    cout << "2 Hash" << endl;
-    cout << "3 Estruturas Balanceadas" << endl;
-    cout << "4 Compressão" << endl;
-    cout << "5 Sair" << endl;
+    cout << "[1] Vetor de teste" << endl
+         << "[2] Importar registros" << endl
+         << "[3] Arvore vermelho-preto" << endl
+         << "[4] Arvore B" << endl
+         << "[5] Huffman" << endl
+         << "[6] LZ77" << endl
+         << "[7] LZW" << endl
+         << "[0] Sair" << endl;
     int opcao;
     cin >> opcao;
     switch (opcao)
@@ -442,8 +478,10 @@ void printMenu() // Menu de execução
              << "2 - LZW" << endl;
         int metodo;
         cin >> metodo;
-        comprime(metodo);
-        descomprime(metodo);
+        cout << "Insira a quantidade de ProductReviews: " << endl;
+        int n;
+        cin >> n;
+        gerarMetricasCompressao(metodo, n);
         printMenu();
         break;
     }
