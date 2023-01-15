@@ -15,7 +15,6 @@ class NoB
     int n;     // Current number of keys
     bool leaf; // Is true when node is leaf. Otherwise false
     string *id;
-    string *binLocation;
         
     public:
     NoB(int _t, bool _leaf);   

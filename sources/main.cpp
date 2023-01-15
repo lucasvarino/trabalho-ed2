@@ -245,71 +245,71 @@ void printMenu() // Menu de execução
     }
     case 4:
     {
-        double tempo;
+        double tempoExec=0;
+        double mediaTempo = 0;
+        int numComparacoes = 0;
+        int mediaComparacoes = 0;
         int tamanho = 1000000;
         int tam_busca = 100;
         int *vet = new int[TOTAL_REGISTROS];
         int *shuf = new int;
         shuf = shuffle(vet, tamanho);
         ProductReview *conjunto = new ProductReview;
-         high_resolution_clock::time_point inicio;
-         high_resolution_clock::time_point fim;
+        high_resolution_clock::time_point inicio;
+        high_resolution_clock::time_point fim;
+
         for (int j = 0; j < 3; j++)
         {
 
             ArvoreB *arvore = new ArvoreB(20);
-
+            inicio = high_resolution_clock::now();
             for (int i = 0; i < tamanho; i++)
             {
-                inicio = high_resolution_clock::now();
 
                 arvore->insere(conjunto->getProductReview(shuf[i]));
             }
-            fim = high_resolution_clock::now();
-            tempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de insercao: " << tempo << endl;
-            cout << "Número de Comparacoes" << arvore->getComparacoes() << endl;
-
             for (int k = 0; k < tam_busca; k++)
             {
-                inicio = high_resolution_clock::now();
                 arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
             }
             fim = high_resolution_clock::now();
-            tempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de busca: " << tempo << endl;
-            cout << "Número de Comparacoees" << arvore->getComparacoes() << endl;
+            tempoExec = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de Execucao: " << tempoExec << endl;
+            cout << "Comparacoes: " << arvore->getComparacoes() << endl;
+            mediaTempo += tempoExec;
+            mediaComparacoes += arvore->getComparacoes();
             delete arvore;
         }
+        cout << "Media de Tempo: " << mediaTempo / 3 << endl;
+        cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
 
+        mediaTempo = 0;
+        mediaComparacoes = 0;
 
         for (int j = 0; j < 3; j++)
         {
-            ArvoreB *arvore2 = new ArvoreB(200);
+            ArvoreB *arvore = new ArvoreB(200);
+            inicio = high_resolution_clock::now();
             for (int i = 0; i < tamanho; i++)
             {
-                inicio = high_resolution_clock::now();
 
-                arvore2->insere(conjunto->getProductReview(shuf[i]));
+                arvore->insere(conjunto->getProductReview(shuf[i]));
             }
-            fim = high_resolution_clock::now();
-            tempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de insercao: " << tempo << endl;
-            cout << "Número de Comparacoees" << arvore2->getComparacoes() << endl;
-
-
             for (int k = 0; k < tam_busca; k++)
             {
-                inicio = high_resolution_clock::now();
-                arvore2->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
+                arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
             }
             fim = high_resolution_clock::now();
-            tempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de busca: " << tempo << endl;
-            cout << "Número de Comparacoees" << arvore2->getComparacoes() << endl;
-
-            delete arvore2;
+            tempoExec = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de Execucao: " << tempoExec << endl;
+            cout << "Comparacoes: " << arvore->getComparacoes() << endl;
+            mediaTempo += tempoExec;
+            mediaComparacoes += arvore->getComparacoes();
+            delete arvore;
         }
+        cout << "Media de Tempo: " << mediaTempo / 3 << endl;
+        cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
+
     }
     default:
     {

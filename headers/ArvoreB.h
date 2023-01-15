@@ -16,6 +16,7 @@ class ArvoreB{
 
     public:
         ArvoreB(int _t);
+        ~ArvoreB();
         void print();
         void insere(ProductReview *pr);
         ProductReview* busca(string userID, string productID);

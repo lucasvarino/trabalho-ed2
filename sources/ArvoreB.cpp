@@ -11,6 +11,10 @@ using namespace std::chrono;
 ArvoreB::ArvoreB(int t){
     root = NULL;
     this->t = t;
+    comparacoes = 0;
+}
+ArvoreB::~ArvoreB(){
+    delete root;
 }
 ProductReview* ArvoreB::busca(string userID, string productID){
     
