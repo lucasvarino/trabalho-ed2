@@ -22,16 +22,16 @@ int *shuffle(int *vetor, int tamanho)
     int aux;
 
     unsigned seed = system_clock::now().time_since_epoch().count();
-    srand(seed); //Criação da Seed para a geracao de numeros aleatorios
+    srand(seed); // Criação da Seed para a geracao de numeros aleatorios
 
     for (int i = 0; i < TOTAL_REGISTROS; i++)
     {
-        vetor[i] = i; //Alocando os valores de 0 a total de registros no vetor
+        vetor[i] = i; // Alocando os valores de 0 a total de registros no vetor
     }
 
     for (i = TOTAL_REGISTROS - MIN - 1; i > 0; i--)
     {
-        j = rand() % (i + 1); //Gerando o índice aleatório
+        j = rand() % (i + 1); // Gerando o índice aleatório
         aux = vetor[i];
         vetor[i] = vetor[j];
         vetor[j] = aux;
@@ -51,23 +51,23 @@ int *shuffle(int *vetor, int tamanho)
 
 RegistroHash *createTable(int n)
 {
-    int *indices = new int[TOTAL_REGISTROS]; //Vetor com os indices de 0 a total de registros
-    int *aleatorios = shuffle(indices, n); // Geração do vetor com n indices aleatórios
+    int *indices = new int[TOTAL_REGISTROS]; // Vetor com os indices de 0 a total de registros
+    int *aleatorios = shuffle(indices, n);   // Geração do vetor com n indices aleatórios
     ProductReview aux;
 
     ProductReview *vet = new ProductReview[n];
-    Hash *hash = new Hash(n); //Criação da tabela hash
+    Hash *hash = new Hash(n); // Criação da tabela hash
 
     for (int i = 0; i < n; i++)
     {
-        vet[i] = *aux.getProductReview(aleatorios[i]); //Alocando os registros aleatórios no vetor
-        RegistroHash *registro = new RegistroHash; //Criação do registro
-        registro->productId = vet[i].getProductId(); //Atribuição do productId
-        registro->qtdReviews = 1; //Atribuição da quantidade de reviews
-        hash->insert(vet[i].getProductId(), registro); //Inserção do registro na tabela hash
+        vet[i] = *aux.getProductReview(aleatorios[i]); // Alocando os registros aleatórios no vetor
+        RegistroHash *registro = new RegistroHash;     // Criação do registro
+        registro->productId = vet[i].getProductId();   // Atribuição do productId
+        registro->qtdReviews = 1;                      // Atribuição da quantidade de reviews
+        hash->insert(vet[i].getProductId(), registro); // Inserção do registro na tabela hash
     }
 
-    return hash->getVetor(); //Retorna o vetor da tabela hash
+    return hash->getVetor(); // Retorna o vetor da tabela hash
 }
 
 void createBinary(string &path)
@@ -84,7 +84,7 @@ void createBinary(string &path)
         return;
     }
     cout << "Criando arquivo binário..." << endl;
-    ProductReview::createBinary(dirCsv); //Função estática que cria o arquivo binário
+    ProductReview::createBinary(dirCsv); // Função estática que cria o arquivo binário
     high_resolution_clock::time_point fim = high_resolution_clock::now();
 
     cout << "Arquivo binário criado." << endl
@@ -108,14 +108,14 @@ Sort *sort(ProductReview *vet, int n, int methodId)
     default:
         break;
     }
-    return sort; //Retornamos Sort para ter acesso às métricas
+    return sort; // Retornamos Sort para ter acesso às métricas
 }
 
 void gerarMetricas(int methodId)
 {
     ifstream arq2("input.dat", ios::in | ios::binary);
 
-    vector<int> tamConjuntos; //Vetor com os tamanhos dos conjuntos (passados pelo .dat ou por padrão)
+    vector<int> tamConjuntos; // Vetor com os tamanhos dos conjuntos (passados pelo .dat ou por padrão)
 
     if (!arq2.is_open())
     {
@@ -123,12 +123,12 @@ void gerarMetricas(int methodId)
         cout << "Gerando um Input com os valores padrão especificados no documento..." << endl;
         ofstream arq("input.dat", ios::out | ios::binary | ios::app);
 
-        //Caso não tenha um .dat, inserimos os valores que estão na especificação do trabalho
+        // Caso não tenha um .dat, inserimos os valores que estão na especificação do trabalho
         tamConjuntos.push_back(1000000);
 
         for (int i = 0; i < 5; i++)
         {
-            arq.write(reinterpret_cast<char *>(&tamConjuntos.at(i)), sizeof(int)); //Escrevendo no arquivo .dat
+            arq.write(reinterpret_cast<char *>(&tamConjuntos.at(i)), sizeof(int)); // Escrevendo no arquivo .dat
         }
     }
     else
@@ -139,8 +139,8 @@ void gerarMetricas(int methodId)
         while (!arq2.eof())
         {
             int tam;
-            arq2.read(reinterpret_cast<char *>(&tam), sizeof(int)); //Lendo os valores do arquivo .dat
-            tamConjuntos.push_back(tam); //Inserindo os valores no vetor
+            arq2.read(reinterpret_cast<char *>(&tam), sizeof(int)); // Lendo os valores do arquivo .dat
+            tamConjuntos.push_back(tam);                            // Inserindo os valores no vetor
         }
     }
 
@@ -164,26 +164,26 @@ void gerarMetricas(int methodId)
         {
             high_resolution_clock::time_point inicio = high_resolution_clock::now();
 
-            ProductReview *conjunto = pr.import(tamConjuntos.at(i)); //Importando o conjunto de registros a ser ordenado
-            Sort *metricas = sort(conjunto, tamConjuntos.at(i), methodId); //Ordenando o conjunto
+            ProductReview *conjunto = pr.import(tamConjuntos.at(i));       // Importando o conjunto de registros a ser ordenado
+            Sort *metricas = sort(conjunto, tamConjuntos.at(i), methodId); // Ordenando o conjunto
 
             high_resolution_clock::time_point fim = high_resolution_clock::now();
-            metricas->setTempo(duration_cast<duration<double>>(fim - inicio).count()); //Atribuindo o tempo de execução
+            metricas->setTempo(duration_cast<duration<double>>(fim - inicio).count()); // Atribuindo o tempo de execução
 
-            mediaComparacoes += metricas->getComparacoes(); //Somando as comparações
-            mediaTrocas += metricas->getTrocas(); //Somando as trocas
-            mediaTempo += metricas->getTempo(); //Somando o tempo
+            mediaComparacoes += metricas->getComparacoes(); // Somando as comparações
+            mediaTrocas += metricas->getTrocas();           // Somando as trocas
+            mediaTempo += metricas->getTempo();             // Somando o tempo
 
             arqTxt << "Conjunto de Tamanho: " << tamConjuntos.at(i) << endl;
             arqTxt << "Comparacoes: " << metricas->getComparacoes() << endl;
             arqTxt << "Trocas: " << metricas->getTrocas() << endl;
             arqTxt << "Tempo: " << metricas->getTempo() << endl;
-            arqTxt << endl; //Escrita das métricas no output.txt
+            arqTxt << endl; // Escrita das métricas no output.txt
 
             delete[] conjunto;
             delete metricas;
         }
-        //Escrita das médias das métricas no .txt
+        // Escrita das médias das métricas no .txt
         arqTxt << endl;
         arqTxt << "Media de Comparacoes: " << mediaComparacoes / qtdConjuntos << endl;
         arqTxt << "Media de Trocas: " << mediaTrocas / qtdConjuntos << endl;
@@ -196,14 +196,14 @@ void gerarMetricas(int methodId)
     }
 }
 
-void printMenu() //Menu de execução
+void printMenu() // Menu de execução
 {
     cout << "Menu de opções" << endl;
     cout << "Escolha sua opção" << endl;
     cout << "1 Ordenação" << endl;
     cout << "2 Hash" << endl;
     cout << "3 Sair" << endl;
-    cout << "4 Arvore B" << endl; 
+    cout << "4 Arvore B" << endl;
     int opcao;
     cin >> opcao;
     switch (opcao)
@@ -213,8 +213,8 @@ void printMenu() //Menu de execução
         cout << "Seleciona o método" << endl
              << "0 - Quick Sort" << endl
              << "1 - Merge Sort" << endl
-             << "2 - Tim Sort" << endl  
-             <<"4- Arvore B"<<endl;
+             << "2 - Tim Sort" << endl
+             << "4- Arvore B" << endl;
         int metodo;
         cin >> metodo;
         gerarMetricas(metodo);
@@ -227,7 +227,7 @@ void printMenu() //Menu de execução
         int tamanho;
         cin >> tamanho;
         RegistroHash *vet = createTable(tamanho);
-        Hash::quickSortHash(vet, 0, tamanho - 1); //Ordenando o vetor de registros
+        Hash::quickSortHash(vet, 0, tamanho - 1); // Ordenando o vetor de registros
         cout << "Insira a quantidade produtos que deseja ver" << endl;
         int qtd;
         cin >> qtd;
@@ -245,25 +245,59 @@ void printMenu() //Menu de execução
     }
     case 4:
     {
-        cout << "Insira o tamanho da arvore B" << endl;
-        for(int i=0; i<3; i++){
-            int *reg = new int;
-            int *vector = new int[1000000];
-            int tamano = 1000000;
-            reg = shuffle(vector, tamano);
-            ProductReview *aux;
-            ArvoreB *arvore = new ArvoreB(4);
-            for(int j=0; j<1000000; j++){
-                arvore->insere(aux->getProductReview(reg[i]));
+        double mediaTempo = 0;
+        int tamanho = 1000000;
+        int tam_busca = 100;
+        int *vet = new int[TOTAL_REGISTROS];
+        int *shuf = new int;
+        shuf = shuffle(vet, tamanho);
+        ProductReview *conjunto = new ProductReview;
+        ArvoreB *arvore = new ArvoreB(20);
+        for (int j = 0; j < 3; j++)
+        {   
+            high_resolution_clock::time_point inicio = high_resolution_clock::now();
+            for (int i = 0; i < tamanho; i++)
+            {
+                
+                arvore->insere(conjunto->getProductReview(shuf[i]));
             }
-            int *vetor = new int[100];
-            int size = 100;
-            int *localiza = new int;
-            localiza = shuffle(vetor, size);
-            for(int k=0; k<100; k++){
-                arvore->busca(aux->getProductReview(localiza[k])->getUserId(), aux->getProductReview(localiza[k])->getProductId());
-            }
+            high_resolution_clock::time_point fim = high_resolution_clock::now();
+            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de inserção: " << j<<" "<< mediaTempo << endl;
 
+            inicio = high_resolution_clock::now();
+            for (int k = 0; k < tam_busca; k++)
+            {
+                arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
+            }
+            fim = high_resolution_clock::now();
+            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de busca: " << j<<" "<< mediaTempo << endl;
+        }
+        
+
+        //////SEGUNDAAAAAAAA TESTE
+        ArvoreB *arvore2 = new ArvoreB(200);
+        for (int j = 0; j < 3; j++)
+        {   
+            high_resolution_clock::time_point inicio = high_resolution_clock::now();
+            for (int i = 0; i < tamanho; i++)
+            {
+                
+                arvore->insere(conjunto->getProductReview(shuf[i]));
+            }
+            high_resolution_clock::time_point fim = high_resolution_clock::now();
+            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de inserção: " << j<<" "<< mediaTempo << endl;
+
+            inicio = high_resolution_clock::now();
+            for (int k = 0; k < tam_busca; k++)
+            {
+                arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
+            }
+            fim = high_resolution_clock::now();
+            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de busca: " << j<<" "<< mediaTempo << endl;
         }
     }
     default:

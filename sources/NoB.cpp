@@ -16,7 +16,6 @@ NoB::NoB(int t1, bool leaf1)
     keys = new ProductReview[2*t-1];
     C = new NoB *[2*t];
     id = new string[2*t-1];
-    binLocation = new string[2*t-1];
  
     // Initialize the number of keys as 0
     n = 0;
@@ -86,20 +85,19 @@ void NoB::insertNonFull(string chave, ProductReview pr)
     else // If this node is not leaf
     {
         // Find the child which is going to have the new key
-        while (i >= 0 && id[i] > chave)
+        while (i >= 0 && id[i] > chave){
             i--;
+        }
+            
  
         // See if the found child is full
         if (C[i+1]->n == 2*t-1)
         {
             // If the child is full, then split it
             splitChild(i+1, C[i+1]);
- 
-            // After split, the middle key of C[i] goes up and
-            // C[i] is splitted into two.  See which of the two
-            // is going to have the new key
-            if (id[i] < chave)
+            if (id[i+1] < chave){
                 i++;
+            }
         }
         C[i+1]->insertNonFull(chave, pr);
     }

@@ -26,12 +26,12 @@ ProductReview* ArvoreB::busca(string userID, string productID){
 void ArvoreB::insere(ProductReview *pr)
 {
     string chave = pr->getUserId()+pr->getProductId();
-    // If tree is empty
     if (root == NULL)
     {
         // Allocate memory for root
         root = new NoB(t, true);
         root->setKey(0,*pr);  // Insert key
+        root->setId(0,pr);  // Insert Id
         root->setN(1);  // Update number of keys in root
     }
     else // If tree is not empty
@@ -58,8 +58,9 @@ void ArvoreB::insere(ProductReview *pr)
             // Change root
             root = NosB;
         }
-        else  // If root is not full, call insertNonFull for root
+        else { // If root is not full, call insertNonFull for root
             root->insertNonFull(chave, *pr);
+        }
     }
     
 }
