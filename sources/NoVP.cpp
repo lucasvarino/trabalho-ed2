@@ -1,35 +1,72 @@
 #include "../headers/NoVP.h"
 #include <iostream>
+#include "../headers/ProductReview.h"
 
 using namespace std;
 
-NoVP::NoVP(int data){
+NoVP::NoVP(string data, ProductReview *pr)
+{
     this->data = data;
-    this->esq = NULL;
-    this->dir = NULL;
-    this->cor = 'R';
-    this->parente = NULL;
+    this->color = true;
+    this->left = nullptr;
+    this->right = nullptr;
+    this->parent = nullptr;
+    this->pr = pr;
 }
 
-NoVP::~NoVP(){
-    delete this->esq;
-    delete this->dir;
+NoVP::~NoVP()
+{
+    // dtor
 }
 
-NoVP NoVP::rodaEsq(NoVP *no){
-    NoVP *x  = no->dir;
-    NoVP *y = x->esq;
-    x->esq = no;
-    no->dir = y;
-    no->parente = x;
-    if(y != NULL){
-        y->parente = no;
+NoVP *NoVP::grandparent()
+{
+    if (this->parent == nullptr)
+        return nullptr;
+    return this->parent->parent;
+}
+
+NoVP *NoVP::uncle()
+{
+    NoVP *g = this->grandparent();
+    if (g == nullptr)
+        return nullptr;
+    if (this->parent == g->left)
+        return g->right;
+    else
+        return g->left;
+}
+
+void NoVP::rotateLeft()
+{
+    NoVP *p = this->right;
+    this->right = p->left;
+    p->left->parent = this;
+    p->parent = this->parent;
+    if (this->parent != nullptr)
+    {
+        if (this == this->parent->left)
+            this->parent->left = p;
+        else
+            this->parent->right = p;
     }
-    return *x;
+    p->left = this;
+    this->parent = p;
 }
 
-NoVP NoVP::rodaDir(NoVP *no){
-    NoVP *x = no->esq;
-    NoVP *y = x->dir;
-    x->dir = no;
+void NoVP::rotateRight()
+{
+    NoVP *p = this->left;
+    this->left = p->right;
+    p->right->parent = this;
+    p->parent = this->parent;
+    if (this->parent != nullptr)
+    {
+        if (this == this->parent->left)
+            this->parent->left = p;
+        else
+            this->parent->right = p;
+    }
+    p->right = this;
+    this->parent = p;
 }

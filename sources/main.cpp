@@ -7,6 +7,7 @@
 #include "../headers/Sort.h"
 #include "../headers/Hash.h"
 #include "../headers/ArvoreB.h"
+#include "../headers/ArvoreVP.h"
 
 #define FILE_NAME "ratings_Electronics"
 #define TOTAL_REGISTROS 7824483
@@ -204,6 +205,7 @@ void printMenu() // Menu de execução
     cout << "2 Hash" << endl;
     cout << "3 Sair" << endl;
     cout << "4 Arvore B" << endl;
+    cout << "5 Arvore VP" << endl;
     int opcao;
     cin >> opcao;
     switch (opcao)
@@ -214,7 +216,8 @@ void printMenu() // Menu de execução
              << "0 - Quick Sort" << endl
              << "1 - Merge Sort" << endl
              << "2 - Tim Sort" << endl
-             << "4- Arvore B" << endl;
+             << "4- Arvore B" << endl
+             << "5 - Arvore VP" << endl;
         int metodo;
         cin >> metodo;
         gerarMetricas(metodo);
@@ -316,6 +319,47 @@ void printMenu() // Menu de execução
         }
         cout << "Media de Tempo: " << mediaTempo / 3 << endl;
         cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
+    }
+    
+    case 5:
+    {
+        double tempoExec = 0;
+        double mediaTempo = 0;
+        int numComparacoes = 0;
+        int mediaComparacoes = 0;
+        int tamanho = 10000;
+        int tam_busca = 100;
+        ProductReview *conjunto = new ProductReview;
+        high_resolution_clock::time_point inicio;
+        high_resolution_clock::time_point fim;
+        
+        for (int j = 0; j < 3; j++)
+        {
+            int *vet = new int[TOTAL_REGISTROS];
+            int *shuf = new int;
+            shuf = shuffle(vet, tamanho);
+            ArvoreVP *arvore = new ArvoreVP;
+            inicio = high_resolution_clock::now();
+            for (int i = 0; i < tamanho; i++)
+            {
+                arvore->insere(conjunto->getProductReview(shuf[i]));
+            }
+            for (int k = 0; k < tam_busca; k++)
+            {
+                arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
+            }
+            fim = high_resolution_clock::now();
+            tempoExec = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de Execucao: " << tempoExec << endl;
+            cout << "---------------------------------" << endl;
+            mediaTempo += tempoExec;
+            delete arvore;
+            delete[] shuf;
+        }
+        cout << "Media de Tempo: " << mediaTempo / 3 << endl;
+
+
+        
     }
     default:
     {
