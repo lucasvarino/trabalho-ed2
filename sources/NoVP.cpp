@@ -1,49 +1,35 @@
-#include "../headers/NoVp.h"
+#include "../headers/NoVP.h"
 #include <iostream>
 
 using namespace std;
 
 NoVP::NoVP(int data){
     this->data = data;
-    this->left = NULL;
-    this->right = NULL;
-    this->color = 'R';
-    this->parent = NULL;
+    this->esq = NULL;
+    this->dir = NULL;
+    this->cor = 'R';
+    this->parente = NULL;
 }
 
-void NoVP::setLeft(NoVP *left){
-    this->left = left;
+NoVP::~NoVP(){
+    delete this->esq;
+    delete this->dir;
 }
 
-void NoVP::setRight(NoVP *right){
-    this->right = right;
+NoVP NoVP::rodaEsq(NoVP *no){
+    NoVP *x  = no->dir;
+    NoVP *y = x->esq;
+    x->esq = no;
+    no->dir = y;
+    no->parente = x;
+    if(y != NULL){
+        y->parente = no;
+    }
+    return *x;
 }
 
-void NoVP::setColor(char color){
-    this->color = color;
+NoVP NoVP::rodaDir(NoVP *no){
+    NoVP *x = no->esq;
+    NoVP *y = x->dir;
+    x->dir = no;
 }
-
-void NoVP::setParent(NoVP *parent){
-    this->parent = parent;
-}
-
-int NoVP::getData(){
-    return this->data;
-}
-
-NoVP *NoVP::getLeft(){
-    return this->left;
-}
-
-NoVP *NoVP::getRight(){
-    return this->right;
-}
-
-char NoVP::getColor(){
-    return this->color;
-}
-
-NoVP *NoVP::getParent(){
-    return this->parent;
-}
-

@@ -2,30 +2,25 @@
 #define NOVP_H_INCLUDED
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-
 class NoVP{
     private:
-        int data;
-        NoVP *left;
-        NoVP *right;
-        char color;
-        NoVP *parent;
+    int data;
+    NoVP *esq;
+    NoVP *dir;
+    char cor;
+    NoVP *parente;
 
     public:
-        NoVP(int data);
-        void setLeft(NoVP *left);
-        void setRight(NoVP *right);
-        void setColor(char color);
-        void setParent(NoVP *parent);
-        int getData();
-        NoVP *getLeft();
-        NoVP *getRight();
-        char getColor();
-        NoVP *getParent();
+    NoVP(int data);
+    ~NoVP();
+    NoVP rodaEsq(NoVP *no);
+    NoVP rodaDir(NoVP *no);
 };
+
 
 
 

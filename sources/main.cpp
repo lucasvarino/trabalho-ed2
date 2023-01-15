@@ -245,22 +245,23 @@ void printMenu() // Menu de execução
     }
     case 4:
     {
-        double tempoExec=0;
+        double tempoExec = 0;
         double mediaTempo = 0;
         int numComparacoes = 0;
         int mediaComparacoes = 0;
-        int tamanho = 1000000;
+        int tamanho = 10000;
         int tam_busca = 100;
-        int *vet = new int[TOTAL_REGISTROS];
-        int *shuf = new int;
-        shuf = shuffle(vet, tamanho);
+
         ProductReview *conjunto = new ProductReview;
         high_resolution_clock::time_point inicio;
         high_resolution_clock::time_point fim;
 
         for (int j = 0; j < 3; j++)
         {
-
+            int *vet = new int[TOTAL_REGISTROS];
+            int *shuf = new int;
+            shuf = shuffle(vet, tamanho);
+            cout << "Aqui" << endl;
             ArvoreB *arvore = new ArvoreB(20);
             inicio = high_resolution_clock::now();
             for (int i = 0; i < tamanho; i++)
@@ -276,9 +277,11 @@ void printMenu() // Menu de execução
             tempoExec = duration_cast<duration<double>>(fim - inicio).count();
             cout << "Tempo de Execucao: " << tempoExec << endl;
             cout << "Comparacoes: " << arvore->getComparacoes() << endl;
+            cout << "---------------------------------" << endl;
             mediaTempo += tempoExec;
             mediaComparacoes += arvore->getComparacoes();
             delete arvore;
+            delete[] shuf;
         }
         cout << "Media de Tempo: " << mediaTempo / 3 << endl;
         cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
@@ -288,6 +291,9 @@ void printMenu() // Menu de execução
 
         for (int j = 0; j < 3; j++)
         {
+            int *vet = new int[TOTAL_REGISTROS];
+            int *shuf = new int;
+            shuf = shuffle(vet, tamanho);
             ArvoreB *arvore = new ArvoreB(200);
             inicio = high_resolution_clock::now();
             for (int i = 0; i < tamanho; i++)
@@ -306,10 +312,10 @@ void printMenu() // Menu de execução
             mediaTempo += tempoExec;
             mediaComparacoes += arvore->getComparacoes();
             delete arvore;
+            delete[] shuf;
         }
         cout << "Media de Tempo: " << mediaTempo / 3 << endl;
         cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
-
     }
     default:
     {

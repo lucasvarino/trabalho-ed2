@@ -21,7 +21,7 @@ class ArvoreB{
         void insere(ProductReview *pr);
         ProductReview* busca(string userID, string productID);
         void passseio();
-        int getComparacoes(){return comparacoes;};
+         int getComparacoes(){return comparacoes;};
         void setComparacoes(int _comparacoes){comparacoes = _comparacoes;};
 };
 

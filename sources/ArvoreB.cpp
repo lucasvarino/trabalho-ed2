@@ -59,9 +59,8 @@ void ArvoreB::insere(ProductReview *pr)
         else { 
             root->insertion(chave, *pr, comparacoes);
         }
-        setComparacoes(comparacoes);
     }
-    
+    setComparacoes(comparacoes);
 }
 void ArvoreB::passseio()
 {
