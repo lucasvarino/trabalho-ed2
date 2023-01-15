@@ -312,6 +312,7 @@ void printMenu() // Menu de execução
             tempoExec = duration_cast<duration<double>>(fim - inicio).count();
             cout << "Tempo de Execucao: " << tempoExec << endl;
             cout << "Comparacoes: " << arvore->getComparacoes() << endl;
+            cout << "---------------------------------" << endl;
             mediaTempo += tempoExec;
             mediaComparacoes += arvore->getComparacoes();
             delete arvore;
@@ -327,7 +328,7 @@ void printMenu() // Menu de execução
         double mediaTempo = 0;
         int numComparacoes = 0;
         int mediaComparacoes = 0;
-        int tamanho = 1000000;
+        int tamanho = 10000;
         int tam_busca = 100;
         ProductReview *conjunto = new ProductReview;
         high_resolution_clock::time_point inicio;
@@ -344,7 +345,6 @@ void printMenu() // Menu de execução
             {
                 arvore->insere(conjunto->getProductReview(shuf[i]));
             }
-            arvore->print();
             for (int k = 0; k < tam_busca; k++)
             {
                 arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
@@ -352,12 +352,15 @@ void printMenu() // Menu de execução
             fim = high_resolution_clock::now();
             tempoExec = duration_cast<duration<double>>(fim - inicio).count();
             cout << "Tempo de Execucao: " << tempoExec << endl;
+            cout << "Comparacoes: " << arvore->getComparacoes() << endl;
             cout << "---------------------------------" << endl;
             mediaTempo += tempoExec;
+            mediaComparacoes += arvore->getComparacoes();
             delete arvore;
             delete[] shuf;
         }
         cout << "Media de Tempo: " << mediaTempo / 3 << endl;
+        cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
 
 
         

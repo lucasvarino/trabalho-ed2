@@ -7,6 +7,7 @@ using namespace std;
 ArvoreVP::ArvoreVP()
 {
     this->root = nullptr;
+    this->comparacoes = 0;
 }
 
 ArvoreVP::~ArvoreVP()
@@ -31,6 +32,7 @@ void ArvoreVP::insere(ProductReview *data)
 void ArvoreVP::insert(NoVP *n, ProductReview *data)
 {
     string chave = data->getUserId() + data->getProductId();
+    comparacoes++;
     if (chave < n->data)
     {
         if (n->left == nullptr)
@@ -64,6 +66,7 @@ void ArvoreVP::fixInsert(NoVP *n)
     {
         NoVP *uncle = nullptr;
         NoVP *grandparent = n->parent->parent;
+        comparacoes++;
         if (n->parent == grandparent->left)
         {
             uncle = grandparent->right;
@@ -76,6 +79,7 @@ void ArvoreVP::fixInsert(NoVP *n)
             }
             else
             {
+                comparacoes++;
                 if (n == n->parent->right)
                 {
                     n = n->parent;
@@ -98,6 +102,7 @@ void ArvoreVP::fixInsert(NoVP *n)
             }
             else
             {
+                comparacoes++;
                 if (n == n->parent->left)
                 {
                     n = n->parent;
@@ -126,10 +131,12 @@ void ArvoreVP::rotateRight(NoVP *n)
     }
     else if (n == n->parent->left)
     {
+        comparacoes++;
         n->parent->left = p;
     }
     else
-    {
+    {   
+        comparacoes++;
         n->parent->right = p;
     }
     p->right = n;
@@ -150,10 +157,12 @@ void ArvoreVP::rotateLeft(NoVP *n)
     }
     else if (n == n->parent->left)
     {
+        comparacoes++;
         n->parent->left = p;
     }
     else
     {
+        comparacoes++;
         n->parent->right = p;
     }
     p->left = n;
@@ -165,16 +174,19 @@ ProductReview *ArvoreVP::busca(string userID, string ProductID)
     string data = userID + ProductID;
     while (current != nullptr)
     {
+        comparacoes++;
         if (data == current->data)
         {
             return current->pr;
         }
         else if (data < current->data)
         {
+            comparacoes++;
             current = current->left;
         }
         else
         {
+            comparacoes++;
             current = current->right;
         }
     }
@@ -192,4 +204,13 @@ void ArvoreVP::printInOrder(NoVP *node) {
         cout << node->data << " ";
         printInOrder(node->right);
     }
+}
+int ArvoreVP::getComparacoes()
+{
+    return comparacoes;
+}
+
+void ArvoreVP::setComparacoes(int comparacoes)
+{
+    this->comparacoes = comparacoes;
 }

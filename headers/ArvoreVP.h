@@ -15,6 +15,7 @@ private:
     void insert(NoVP *n, ProductReview* data);
     void fixInsert(NoVP *n);
     void printInOrder(NoVP *n);
+    int comparacoes;
 
 public:
     ArvoreVP();
@@ -24,6 +25,8 @@ public:
     void rotateRight(NoVP *n);
     ProductReview *busca(string userId, string productId);
     void print();
+    int getComparacoes();
+    void setComparacoes(int comparacoes);
     
 };
 
