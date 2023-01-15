@@ -393,33 +393,46 @@ void gerarMetricasCompressao(int metodo, int n)
     string str = "";
     ProductReview *aux;
     ProductReview *reviews = new ProductReview[n];
-
-    for (int i = 0; i < n; i++)
-    {
-        reviews[i] = *aux->getProductReview(aleatorios[i]);
-    }
-
-    for (int i = 0; i < n; i++)
-    {
-        str += reviews[i].getUserId();
-        str += reviews[i].getProductId();
-    }
-    int tamanho = str.size();
-    string comprimida = comprime(str, metodo);
-
-    int tamanhoComprimida = comprimida.size();
-
-    // Calcular a taxa de compressão
-    float taxa = ((float)tamanho - (float)tamanhoComprimida / (float)tamanho) * 100;
+    float media = 0;
 
     ofstream arq(path + "saida.txt", ios::out | ios::app);
-    arq << "------------------------------------------" << endl;
-    arq << "Método: " << metodo << endl;
-    arq << "Tamanho original: " << tamanho << endl;
-    arq << "Tamanho comprimido: " << tamanhoComprimida << endl;
-    arq << "Taxa de compressão: " << taxa << "%" << endl;
-    arq << "------------------------------------------" << endl;
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            reviews[i] = *aux->getProductReview(aleatorios[i]);
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            str += reviews[i].getUserId();
+            str += reviews[i].getProductId();
+        }
+        int tamanho = str.size();
+        string comprimida = comprime(str, metodo);
+
+        int tamanhoComprimida = comprimida.size();
+
+        // Calcular a taxa de compressão
+        float taxa = ((float)tamanho - (float)tamanhoComprimida / (float)tamanho) * 100;
+        media += taxa;
+
+        arq << "------------------------------------------" << endl;
+        arq << "Método: " << metodo << endl;
+        arq << "Tamanho original: " << tamanho << endl;
+        arq << "Tamanho comprimido: " << tamanhoComprimida << endl;
+        arq << "Taxa de compressão: " << taxa << "%" << endl;
+        arq << "------------------------------------------" << endl;
+    }
+
+    media /= 3;
+    arq << "Média das taxas de compressão: " << media << endl;
 }
+
+// ===============================================================
+// ========================= FUNÇÕES DO PROFESSOR ================
+// ===============================================================
 
 void printMenu() // Menu de execução
 {
