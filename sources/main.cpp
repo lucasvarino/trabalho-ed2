@@ -8,6 +8,7 @@
 #include "../headers/ProductReview.h"
 #include "../headers/Sort.h"
 #include "../headers/Hash.h"
+#include "../headers/Huffman.h"
 #include "../headers/LZW.h"
 #include "../headers/LZ77.h"
 
