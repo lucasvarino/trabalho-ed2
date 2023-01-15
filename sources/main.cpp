@@ -256,7 +256,7 @@ void printMenu() // Menu de execução
         double mediaTempo = 0;
         int numComparacoes = 0;
         int mediaComparacoes = 0;
-        int tamanho = 10000;
+        int tamanho = 1000000;
         int tam_busca = 100;
 
         switch (m)
@@ -296,9 +296,7 @@ void printMenu() // Menu de execução
             cout << "Media de Tempo: " << mediaTempo / 3 << endl;
             cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
 
-            mediaTempo = 0;
-            mediaComparacoes = 0;
-            break;
+            exit(0);
         }
         case 2:
         {
@@ -333,7 +331,8 @@ void printMenu() // Menu de execução
             cout<<"=========MÉDIAS=========" << endl;
             cout << "Media de Tempo: " << mediaTempo / 3 << endl;
             cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
-            break;
+            
+            exit(0);
         }
         default:
         {
@@ -350,7 +349,7 @@ void printMenu() // Menu de execução
         double mediaTempo = 0;
         int numComparacoes = 0;
         int mediaComparacoes = 0;
-        int tamanho = 10000;
+        int tamanho = 1000000;
         int tam_busca = 100;
         ProductReview *conjunto = new ProductReview;
         high_resolution_clock::time_point inicio;
@@ -382,7 +381,7 @@ void printMenu() // Menu de execução
         cout<<"=========MÉDIAS=========" << endl;
         cout << "Media de Tempo: " << mediaTempo / 3 << endl;
         cout << "Media de Comparacoes: " << mediaComparacoes / 3 << endl;
-        break;
+        exit(0);
 
     }
     default:
