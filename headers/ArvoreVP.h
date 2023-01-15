@@ -14,7 +14,7 @@ private:
     NoVP *root;
     void insert(NoVP *n, ProductReview* data);
     void fixInsert(NoVP *n);
-    void print(NoVP *n, int level);
+    void printInOrder(NoVP *n);
 
 public:
     ArvoreVP();

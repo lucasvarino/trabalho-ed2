@@ -33,17 +33,14 @@ void ArvoreVP::insert(NoVP *n, ProductReview *data)
     string chave = data->getUserId() + data->getProductId();
     if (chave < n->data)
     {
-        cout << "A" << endl;
         if (n->left == nullptr)
         {
-            cout << "B" << endl;
             n->left = new NoVP(chave, data);
             n->left->parent = n;
             fixInsert(n->left);
         }
         else
         {
-            cout << "C" << endl;
             insert(n->left, data);
         }
     }
@@ -51,14 +48,12 @@ void ArvoreVP::insert(NoVP *n, ProductReview *data)
     {
         if (n->right == nullptr)
         {
-            cout << "D" << endl;
             n->right = new NoVP(chave, data);
             n->right->parent = n;
             fixInsert(n->right);
         }
         else
         {
-            cout << "E" << endl;
             insert(n->right, data);
         }
     }
@@ -188,20 +183,13 @@ ProductReview *ArvoreVP::busca(string userID, string ProductID)
 
 void ArvoreVP::print()
 {
-    print(root, 0);
+    printInOrder(root);
 }
 
-void ArvoreVP::print(NoVP *n, int level)
-{
-    if (n == nullptr)
-    {
-        return;
+void ArvoreVP::printInOrder(NoVP *node) {
+    if (node != nullptr) {
+        printInOrder(node->left);
+        cout << node->data << " ";
+        printInOrder(node->right);
     }
-    print(n->right, level + 1);
-    for (int i = 0; i < level; i++)
-    {
-        cout << "    ";
-    }
-    std::cout << n->data << "(" << (n->color ? "red" : "black") << ")" << endl;
-    print(n->left, level + 1);
 }
