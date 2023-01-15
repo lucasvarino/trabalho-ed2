@@ -1,10 +1,12 @@
 #include "../headers/ArvoreB.h"
 #include "../headers/ProductReview.h"
 #include "../headers/NoB.h"
+#include <chrono>
 
 #include <iostream>
 
 using namespace std;
+using namespace std::chrono;
 
 ArvoreB::ArvoreB(int t){
     root = NULL;
@@ -25,9 +27,12 @@ ProductReview* ArvoreB::busca(string userID, string productID){
 }
 void ArvoreB::insere(ProductReview *pr)
 {
+
+    high_resolution_clock::time_point inicio;
     string chave = pr->getUserId()+pr->getProductId();
     if (root == NULL)
     {
+       inicio = high_resolution_clock::now();
         // Allocate memory for root
         root = new NoB(t, true);
         root->setKey(0,*pr);  // Insert key
@@ -61,6 +66,8 @@ void ArvoreB::insere(ProductReview *pr)
         else { // If root is not full, call insertNonFull for root
             root->insertNonFull(chave, *pr);
         }
+        high_resolution_clock::time_point fim = high_resolution_clock::now();
+        duration<double> tempo = duration_cast<duration<double>>(fim - inicio);
     }
     
 }

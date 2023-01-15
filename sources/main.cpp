@@ -245,59 +245,67 @@ void printMenu() // Menu de execução
     }
     case 4:
     {
-        double mediaTempo = 0;
-        int tamanho = 1000000;
+        double tempo;
+        int tamanho = 100000;
         int tam_busca = 100;
         int *vet = new int[TOTAL_REGISTROS];
         int *shuf = new int;
         shuf = shuffle(vet, tamanho);
         ProductReview *conjunto = new ProductReview;
-        ArvoreB *arvore = new ArvoreB(20);
+         high_resolution_clock::time_point inicio;
+         high_resolution_clock::time_point fim;
         for (int j = 0; j < 3; j++)
-        {   
-            high_resolution_clock::time_point inicio = high_resolution_clock::now();
+        {
+
+            ArvoreB *arvore = new ArvoreB(20);
+
             for (int i = 0; i < tamanho; i++)
             {
-                
+                inicio = high_resolution_clock::now();
+
                 arvore->insere(conjunto->getProductReview(shuf[i]));
             }
-            high_resolution_clock::time_point fim = high_resolution_clock::now();
-            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de inserção: " << j<<" "<< mediaTempo << endl;
+            fim = high_resolution_clock::now();
+            tempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de insercao: " << tempo << endl;
 
-            inicio = high_resolution_clock::now();
             for (int k = 0; k < tam_busca; k++)
             {
+                inicio = high_resolution_clock::now();
                 arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
             }
             fim = high_resolution_clock::now();
-            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de busca: " << j<<" "<< mediaTempo << endl;
+            tempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de busca: " << tempo << endl;
+            delete arvore;
         }
-        
 
-        //////SEGUNDAAAAAAAA TESTE
-        ArvoreB *arvore2 = new ArvoreB(200);
+
         for (int j = 0; j < 3; j++)
-        {   
-            high_resolution_clock::time_point inicio = high_resolution_clock::now();
+        {
+            ArvoreB *arvore2 = new ArvoreB(200);
             for (int i = 0; i < tamanho; i++)
             {
-                
-                arvore->insere(conjunto->getProductReview(shuf[i]));
-            }
-            high_resolution_clock::time_point fim = high_resolution_clock::now();
-            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de inserção: " << j<<" "<< mediaTempo << endl;
+                inicio = high_resolution_clock::now();
 
-            inicio = high_resolution_clock::now();
-            for (int k = 0; k < tam_busca; k++)
-            {
-                arvore->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
+                arvore2->insere(conjunto->getProductReview(shuf[i]));
             }
             fim = high_resolution_clock::now();
-            mediaTempo = duration_cast<duration<double>>(fim - inicio).count();
-            cout << "Tempo de busca: " << j<<" "<< mediaTempo << endl;
+            tempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de insercao: " << tempo << endl;
+
+
+            for (int k = 0; k < tam_busca; k++)
+            {
+                inicio = high_resolution_clock::now();
+                arvore2->busca(conjunto->getProductReview(shuf[k])->getUserId(), conjunto->getProductReview(shuf[k])->getProductId());
+            }
+            fim = high_resolution_clock::now();
+            tempo = duration_cast<duration<double>>(fim - inicio).count();
+            cout << "Tempo de busca: " << tempo << endl;
+
+
+            delete arvore2;
         }
     }
     default:
