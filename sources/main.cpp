@@ -422,9 +422,9 @@ void gerarMetricasCompressao(int metodo, int n)
 
         float tamanhoComprimida = comprimida.size();
 
-        if (metodo == 5)
+        if (metodo == 5 || metodo == 6)
         {
-            tamanhoComprimida = tamanhoComprimida / 8;
+            tamanhoComprimida = (int)tamanhoComprimida / 8;
         }
 
         // Calcular a taxa de compressão
@@ -437,8 +437,6 @@ void gerarMetricasCompressao(int metodo, int n)
         arq << "Tamanho comprimido: " << tamanhoComprimida << endl;
         arq << "Taxa de compressão: " << taxa << "%" << endl;
         arq << "------------------------------------------" << endl;
-
-        str = "";
     }
 
     media /= 3;
