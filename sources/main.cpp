@@ -413,6 +413,8 @@ void gerarMetricasCompressao(int metodo, int n)
         {
             str += reviews[i].getUserId();
             str += reviews[i].getProductId();
+            str += to_string(reviews[i].getRating());
+            str += reviews[i].getTimestamp();
         }
         float tamanho = str.size();
 
@@ -420,10 +422,11 @@ void gerarMetricasCompressao(int metodo, int n)
 
         float tamanhoComprimida = comprimida.size();
 
-        if(metodo == 5){
-            tamanhoComprimida=tamanhoComprimida/8;
+        if (metodo == 5)
+        {
+            tamanhoComprimida = tamanhoComprimida / 8;
         }
-            
+
         // Calcular a taxa de compressão
         float taxa = ((tamanho - tamanhoComprimida) / tamanho) * 100;
         media += taxa;
