@@ -217,12 +217,12 @@ string comprime(string str, int metodo)
         break;
     case 1:
         // Compressão com o método de LZ77
-        cout << "Comprimindo com LZ77..." << endl;
         return lz77->comprime(str);
         delete lz77;
         break;
     case 2:
         // Compressão com o método de LZW
+        cout << "Comprimindo com LZW..." << endl;
         return lzw->vectorToString(lzw->comprime(str));
         break;
     default:
@@ -280,7 +280,6 @@ void comprime(int metodo)
         break;
     case 1:
         // Compressão com o método de LZ77
-        cout << "Comprimindo com LZ77..." << endl;
         comprimido = comprime(str, metodo);
         salvarStringEmBin(comprimido);
         break;
@@ -408,13 +407,14 @@ void gerarMetricasCompressao(int metodo, int n)
             str += reviews[i].getUserId();
             str += reviews[i].getProductId();
         }
-        int tamanho = str.size();
-        string comprimida = comprime(str, metodo);
+        float tamanho = str.size();
 
-        int tamanhoComprimida = comprimida.size();
+        string comprimida = comprime(str, metodo - 5);
+
+        float tamanhoComprimida = comprimida.size();
 
         // Calcular a taxa de compressão
-        float taxa = ((float)tamanho - (float)tamanhoComprimida / (float)tamanho) * 100;
+        float taxa = ((tamanho - tamanhoComprimida) / tamanho) * 100;
         media += taxa;
 
         arq << "------------------------------------------" << endl;
@@ -484,16 +484,36 @@ void printMenu() // Menu de execução
     }
     case 4:
     {
-        cout << "Insira o método de compressão" << endl
-             << "0 - Huffman" << endl
-             << "1 - LZ77" << endl
-             << "2 - LZW" << endl;
-        int metodo;
-        cin >> metodo;
+        // Estruturas balanceadas
+        cout << "Estruturas Balanceadas" << endl;
+    }
+    case 5:
+    {
         cout << "Insira a quantidade de ProductReviews: " << endl;
         int n;
         cin >> n;
-        gerarMetricasCompressao(metodo, n);
+        gerarMetricasCompressao(5, n);
+        cout << "Métricas geradas no arquivo saida.txt" << endl;
+        printMenu();
+        break;
+    }
+    case 6:
+    {
+        cout << "Insira a quantidade de ProductReviews: " << endl;
+        int n;
+        cin >> n;
+        gerarMetricasCompressao(6, n);
+        cout << "Métricas geradas no arquivo saida.txt" << endl;
+        printMenu();
+        break;
+    }
+    case 7:
+    {
+        cout << "Insira a quantidade de ProductReviews: " << endl;
+        int n;
+        cin >> n;
+        gerarMetricasCompressao(7, n);
+        cout << "Métricas geradas no arquivo saida.txt" << endl;
         printMenu();
         break;
     }
