@@ -1,0 +1,105 @@
+---------------------
+Método 1
+---------------------
+
+
+Conjunto de Tamanho: 10000
+Comparacoes: 120451
+Trocas: 133616
+Tempo: 4.08549
+
+Conjunto de Tamanho: 10000
+Comparacoes: 120451
+Trocas: 133616
+Tempo: 1.09348
+
+Conjunto de Tamanho: 10000
+Comparacoes: 120451
+Trocas: 133616
+Tempo: 1.09351
+
+
+Media de Comparacoes: 120451
+Media de Trocas: 133616
+Media de Tempo: 2.09083
+---------------------------------
+Conjunto de Tamanho: 50000
+Comparacoes: 717994
+Trocas: 784464
+Tempo: 14.0367
+
+Conjunto de Tamanho: 50000
+Comparacoes: 717994
+Trocas: 784464
+Tempo: 8.45112
+
+Conjunto de Tamanho: 50000
+Comparacoes: 717994
+Trocas: 784464
+Tempo: 12.3462
+
+
+Media de Comparacoes: 717994
+Media de Trocas: 784464
+Media de Tempo: 11.6114
+---------------------------------
+Conjunto de Tamanho: 100000
+Comparacoes: 1536233
+Trocas: 1668928
+Tempo: 20.2327
+
+Conjunto de Tamanho: 100000
+Comparacoes: 1536233
+Trocas: 1668928
+Tempo: 11.9872
+
+Conjunto de Tamanho: 100000
+Comparacoes: 1536233
+Trocas: 1668928
+Tempo: 11.9228
+
+
+Media de Comparacoes: 1536233
+Media de Trocas: 1668928
+Media de Tempo: 14.7143
+---------------------------------
+Conjunto de Tamanho: 500000
+Comparacoes: 8837635
+Trocas: 9475712
+Tempo: 85.7574
+
+Conjunto de Tamanho: 500000
+Comparacoes: 8837635
+Trocas: 9475712
+Tempo: 68.0414
+
+Conjunto de Tamanho: 500000
+Comparacoes: 8837635
+Trocas: 9475712
+Tempo: 60.6037
+
+
+Media de Comparacoes: 8837635
+Media de Trocas: 9475712
+Media de Tempo: 71.4675
+---------------------------------
+Conjunto de Tamanho: 1000000
+Comparacoes: 18674542
+Trocas: 19951424
+Tempo: 126.965
+
+Conjunto de Tamanho: 1000000
+Comparacoes: 18674542
+Trocas: 19951424
+Tempo: 148.857
+
+Conjunto de Tamanho: 1000000
+Comparacoes: 18674542
+Trocas: 19951424
+Tempo: 137.626
+
+
+Media de Comparacoes: 18674542
+Media de Trocas: 19951424
+Media de Tempo: 137.816
+---------------------------------

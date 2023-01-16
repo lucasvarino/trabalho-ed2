@@ -210,6 +210,7 @@ void gerarMetricas(int methodId)
 
 string comprime(string str, int metodo)
 {
+    Huffman *huffman = new Huffman();
     LZW *lzw = new LZW();
     LZ77 *lz77 = new LZ77();
     switch (metodo)
@@ -217,6 +218,8 @@ string comprime(string str, int metodo)
     case 0:
         // Compressão com o método de Huffman
         cout << "Comprimindo com Huffman..." << endl;
+        return huffman->compress(str);
+        delete huffman;
         break;
     case 1:
         // Compressão com o método de LZ77
@@ -227,6 +230,7 @@ string comprime(string str, int metodo)
         // Compressão com o método de LZW
         cout << "Comprimindo com LZW..." << endl;
         return lzw->vectorToString(lzw->comprime(str));
+        delete lzw;
         break;
     default:
         cout << "Saindo do programa..." << endl;
@@ -396,7 +400,7 @@ void gerarMetricasCompressao(int metodo, int n)
     ProductReview *reviews = new ProductReview[n];
     float media = 0;
 
-    ofstream arq(path + "saida.txt", ios::out | ios::app);
+    ofstream arq(path + "saida.txt", ios::out | ios::trunc);
 
     for (int i = 0; i < 3; i++)
     {
@@ -416,6 +420,10 @@ void gerarMetricasCompressao(int metodo, int n)
 
         float tamanhoComprimida = comprimida.size();
 
+        if(metodo == 5){
+            tamanhoComprimida=tamanhoComprimida/8;
+        }
+            
         // Calcular a taxa de compressão
         float taxa = ((tamanho - tamanhoComprimida) / tamanho) * 100;
         media += taxa;
@@ -426,6 +434,8 @@ void gerarMetricasCompressao(int metodo, int n)
         arq << "Tamanho comprimido: " << tamanhoComprimida << endl;
         arq << "Taxa de compressão: " << taxa << "%" << endl;
         arq << "------------------------------------------" << endl;
+
+        str = "";
     }
 
     media /= 3;
